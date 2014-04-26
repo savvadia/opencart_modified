@@ -1,0 +1,228 @@
+<modification>
+    <id>notify_when_arrives (3.6)</id>
+    <version>1.4</version>
+    <vqmver>2.1</vqmver>
+    <author>thalles cardoso</author>
+    <file name="admin/controller/common/home.php">
+        <operation>
+            <search position="before"><![CDATA[if (!in_array($route, $ignore) && !$this->user->hasPermission('access', $route)) {]]>
+            </search>
+            <add><![CDATA[
+                
+                 if(isset($this->request->get['nwa_cron_key']) &&  $this->request->get['nwa_cron_key'] && $this->request->get['nwa_cron_key'] === $this->config->get('nwa_cron_key')){
+                
+                	$ignore[] = 'module/notify_when_arrives';
+                
+                 }
+ 
+
+		]]>
+            </add>
+        </operation>
+         <operation>
+            <search position="before"><![CDATA[$config_ignore = array();]]>
+            </search>
+            <add><![CDATA[
+
+                 if(isset($this->request->get['nwa_cron_key']) &&  $this->request->get['nwa_cron_key'] && $this->request->get['nwa_cron_key'] === $this->config->get('nwa_cron_key')){
+                
+                	$ignore[] = 'module/notify_when_arrives';
+                
+                 }
+  
+		 ]]>
+            </add>
+        </operation>
+          <operation>
+            <search position="before"><![CDATA[if (!$this->user->isLogged() && !in_array($route, $ignore)) {]]>
+            </search>
+            <add><![CDATA[
+
+                 if(isset($this->request->get['nwa_cron_key']) &&  $this->request->get['nwa_cron_key'] && $this->request->get['nwa_cron_key'] === $this->config->get('nwa_cron_key')){
+                
+                	$ignore[] = 'module/notify_when_arrives';
+                
+                 }
+ 
+		 ]]>
+            </add>
+        </operation>
+    </file>
+    <file name="admin/model/catalog/product.php">
+        <operation>
+            <search position="after"><![CDATA[$this->cache->delete('product');]]>
+            </search>
+            <add><![CDATA[
+			
+			$this->cache->delete('nwa_osl');
+			  ]]>
+            </add>
+        </operation>
+    </file>
+    <file name="admin/view/template/catalog/option_list.tpl">
+        <operation>
+            <search position="before"><![CDATA[<?php echo $footer; ?>]]>
+            </search>
+            <add><![CDATA[
+			
+			<?php if ($this->config->get('notify_when_arrives_status')){ ?>
+			
+			    <script type="text/javascript"><!--
+ 
+				$.ajax({
+				    url: 'index.php?route=module/notify_when_arrives/option_warning&token=<?php echo isset($_GET['token']) ? $_GET['token'] : '';?>',
+				    success: function(data) {
+
+					 $('.content').prepend(data);
+
+				    }
+				    });
+			    --></script>
+
+			<?php } ?>
+			  ]]>
+            </add>
+        </operation>
+    </file>
+    <file name="admin/view/template/catalog/product_list.tpl">
+        <operation>
+            <search position="before"><![CDATA[<?php echo $footer; ?>]]>
+            </search>
+            <add><![CDATA[
+			
+			<?php if ($this->config->get('notify_when_arrives_status')){ ?>
+			
+			    <script type="text/javascript">
+ 
+				$.ajax({
+				    url: 'index.php?route=module/notify_when_arrives/notify&token=<?php echo $token;?>&main=1',
+				    success: function(data) {
+
+					 $('.buttons').prepend('<a href="index.php?route=module/notify_when_arrives&token=<?php echo $token;?>" class="button">'+data+'</a>');
+
+				    }
+				    });
+			     </script>
+
+			<?php } ?>
+			  ]]>
+            </add>
+        </operation>
+    </file>
+    <file name="admin/view/template/tool/export.tpl" error="skip">
+        <operation>
+            <search position="before" error="skip"><![CDATA[<?php echo $footer; ?>]]>
+            </search>
+            <add><![CDATA[
+			
+			<?php if ($this->config->get('notify_when_arrives_status')){ ?>
+			
+			    <script type="text/javascript">
+ 
+				$.ajax({
+				    url: 'index.php?route=module/notify_when_arrives/notify&token=<?php echo isset($_GET['token']) ? $_GET['token'] : '' ;?>&main=1',
+				    success: function(data) {
+
+					 $('.buttons').prepend('<a href="index.php?route=module/notify_when_arrives&token=<?php echo isset($_GET['token']) ? $_GET['token'] : '' ;?>" class="button">'+data+'</a>');
+
+				    }
+				    });
+			     </script>
+
+			<?php } ?>
+			  ]]>
+            </add>
+        </operation>
+    </file>
+    <file name="catalog/controller/product/product.php">
+        <operation>
+            <search position="after"><![CDATA[$this->data['options'] = array();]]>
+            </search>
+            <add><![CDATA[
+                
+                            $skip_customer_group = (array)explode(',',$this->config->get('notify_when_arrives_customer_group'));
+
+                            $customer_group = $this->customer->getCustomerGroupId() ? $this->customer->getCustomerGroupId() : 'not_logged';
+
+			    $this->data['nwa_enabled'] = $nwa_enabled = ($this->config->get('notify_when_arrives_status') && !in_array($customer_group,$skip_customer_group));
+			
+			    if ($nwa_enabled){
+
+				$this->data['nwa_options'] = array();
+
+			    }
+			]]>
+            </add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {]]>
+            </search>
+            <add><![CDATA[
+ 
+			if ($nwa_enabled || (!$option_value['subtract'] || ($option_value['quantity'] > 0))) { 
+			
+			    if ($nwa_enabled){
+
+				if($option_value['quantity'] == 0){
+
+				$this->data['nwa_options'][$option['option_id']][$option_value['product_option_value_id']] = $option_value['option_value_id'];
+
+				}
+
+			    }
+			
+			]]>
+            </add>
+        </operation>
+    </file>
+    <file name="catalog/view/theme/*/template/product/product.tpl">
+        <operation>
+            <search position="replace"><![CDATA[name="option[<?php echo $option['product_option_id']; ?>]"]]>
+            </search>
+            <add><![CDATA[ 
+			
+			<?php if ($nwa_enabled){ ?>
+			    <?php if ($option['type'] == 'select') { ?>
+				name="option[<?php echo $option['product_option_id']; ?>]" onchange="$(this).nwaOption('<?php echo isset($option['option_value'][0]['option_id']) ? $option['option_value'][0]['option_id']: $option['option_id'];?>',$('option:selected', this).val(),'<?php echo $option['name']; ?>',$('option:selected', this).text());" 
+			    <?php }else{ ?>
+				name="option[<?php echo $option['product_option_id']; ?>]" onchange="$(this).nwaOption('<?php echo isset($option_value['option_id']) ? $option_value['option_id']: $option['option_id'];?>',$(this).val(),'<?php echo $option['name']; ?>','<?php echo $option_value['name']; ?>');" 
+			    <?php } ?>
+			<?php }else{ ?>
+				name="option[<?php echo $option['product_option_id']; ?>]"
+			<?php } ?>
+			]]>
+            </add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[name="option[<?php echo $option['product_option_id']; ?>][]"]]>
+            </search>
+            <add><![CDATA[ 
+			 <?php if ($nwa_enabled){ ?>
+			    name="option[<?php echo $option['product_option_id']; ?>][]" onchange="$(this).nwaOption('<?php echo isset($option_value['option_id']) ? $option_value['option_id']: $option['option_id'];?>',$(this).val(),'<?php echo $option['name']; ?>','<?php echo $option_value['name']; ?>');" 
+			<?php }else{ ?>
+			    name="option[<?php echo $option['product_option_id']; ?>
+			<?php } ?>
+			]]>
+            </add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[<?php echo $content_top; ?>]]>
+            </search>
+            <add><![CDATA[ 
+			
+			<?php if ($nwa_enabled){ ?>
+			
+			    <script type="text/javascript">
+
+				var nwa_options= <?php echo json_encode($nwa_options);?>;
+				var nwa_title ='';
+
+			    </script>
+			
+			<?php } ?>
+			<?php echo $content_top; ?>
+			]]>
+            </add>
+        </operation>
+    </file>
+</modification>
