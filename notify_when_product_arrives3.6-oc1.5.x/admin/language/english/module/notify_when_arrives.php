@@ -35,12 +35,36 @@ $_['option_warning'] = '
 <b style="color:red">Be Carefull:</b>
 Before delete an option or option value, 
 remember to check if there are users waiting for them, 
-{heading_title}, checks stock by "options IDs"and "options values IDs", 
+{heading_title}, checks stock by "options IDs" and "options values IDs", 
 if you remove any, users which have registered for that option / option value will not receive any e-mail.
 ';
 
+// v 4.0 vars
+$_['entry_filter'] = 'Filter Options';
+$_['entry_nwa_image_size'] = 'Product Image Size<span class="help">Define the size for the images in e-mail</span>';
+$_['entry_nwa_use_captcha'] = 'Use captcha in forms?<span class="help">Captcha is a resource to avoid spam in store forms';
+$_['text_filter_last_year'] = 'Last Year';
+$_['text_filter_last_6_months']= 'Last 6 months';
+$_['text_filter_last_3_months'] = 'Last 3 months';
+$_['text_filter_last_month'] = 'Last Month';
+$_['text_filter_last_week'] = 'Last Week';
+$_['text_filter_all'] = 'All Time';
+$_['text_filter_custom'] = 'Custom (use date fields)';
+
+$_['text_filter_date_start'] = 'Date Start';
+$_['text_filter_date_end'] = 'Date End';
+$_['text_filter_graphic_max'] = 'Chart view Limit';
+
+$_['button_update_statistics'] = 'Update Statistics';
+$_['button_multi_delete'] = 'Del checked';
+$_['text_confirm_multi_delete'] = 'Are you sure? This action cannot be undone!';
+
+$_['text_heading_system'] = 'SYSTEM OPTIONS';
+$_['text_heading_display'] = 'DISPLAY OPTIONS';
+$_['text_heading_install'] = 'INSTALL OPTIONS';
+
 // Heading
-$_['heading_title'] = 'Notify When Product Arrives 3.6';
+$_['heading_title'] = 'Notify When Product Arrives 4.0';
 
 $_['button_notify'] = 'Notify now (send e-mails)';
  
@@ -58,7 +82,7 @@ $_['entry_nwa_cron_key'] = 'Cron job support<span class="help">
 
 $_['entry_nwa_cron_key_tip'] = '
  <span class="help"> <br/>
- After defining a key, setup your cron job software to access the following link: <br/>
+ After defining a key, setup your cron job software to access the following link: <br/><br/>
  http://YOURSTORE.COM/admin/index.php?route=module/notify_when_arrives/notify<b style="color:red;">&nwa_cron_key=YOUR_DEFINED_KEY</b>
 </span>';
 
@@ -69,6 +93,9 @@ $_['entry_mail_costumer'] = 'Costumer mail body:
   <b>{user_custom}</b> for customer custom data<br/>
   <b>{product_name}</b> for product name<br/>
   <b>{product_link}</b> for product link<br/>
+  <b>{product_href}</b> for product href<br/>
+  <b>{product_image}</b> for product image<br/>
+  <b>{product_image_href}</b> for product image href<br/>
   <b>{store_name}</b> for store name<br/>
 ';
 
@@ -76,6 +103,9 @@ $_['entry_mail_admin'] = 'Admin mail body:
   <span class="help">Use the following keywords:<br/>
   <b>{product_name}</b> for product name<br/>
   <b>{product_link}</b> for product link<br/>
+  <b>{product_href}</b> for product href<br/>
+  <b>{product_image}</b> for product image<br/>
+  <b>{product_image_href}</b> for product image href<br/>
   <b>{store_name}</b> for store name<br/>';
 
 $_['entry_subject_costumer'] = 'Costumer mail subject:';
@@ -122,10 +152,12 @@ $_['text_module'] = 'Modules';
 
 $_['text_success'] = 'Module Notify When Product Arrives modified successfully';
 
-$_['text_show_both'] = 'Display register form on "hover" and "click" events. <span class="help" style="display:inline">(Not compatible with all themes )</span>';
-$_['text_show_click'] = 'Display register form on "click" event only.';
-$_['text_show_redirect'] = 'Send customer to product page  and display form in there.';
-$_['text_show_popup'] = 'Display a popup window. <span class="help" style="display:inline">(Works on click only)</span>';
+$_['text_show_both'] = 'Display form on "hover" and "click" events.  
+                        <span class="help" style="padding-left:18px;">(Not compatible with all themes )</span>';
+$_['text_show_click'] = 'Display form on "click" event only.';
+$_['text_show_redirect'] = 'Redirect to product page and display form.';
+$_['text_show_popup'] = 'Display a popup window.  
+                        <span class="help" style="padding-left:18px;">(Works on click only)</span>';
 
 $_['text_no_data'] = 'No data!';
 
@@ -140,7 +172,7 @@ $_['text_view_mails'] = 'Show Customers';
 $_['text_hide_mails'] = 'Hide Customers';
 
 $_['text_delete_statistic'] = 'Remove statistic?';
-$_['text_delete_ok'] = 'Statistic deleted!';
+$_['text_delete_ok'] = 'Statistic(s) deleted!';
 $_['text_delete_error'] = 'Error deleting!';
 $_['text_confirm_delete'] = 'Are you sure you want to delete this statistic?';
 
