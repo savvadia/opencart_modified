@@ -19,12 +19,16 @@ Best Regards
 
 #mail admin--------------------------------------------------------------------
 
-$_['default_mail_subject_admin'] = '{store_name} -  Notices of available product {product_name} delivered.';
+$_['default_mail_subject_admin'] = '{store_name} -  Notices of available product {product_name} delivered - {sent} messages.';
 
 $_['default_mail_body_admin'] =
 'Hello!
 <br/> <br/> 
-Notices of product {product_name} availability were delivered.
+Notices of product {product_name} availability were delivered:
+{product_link}
+<br/> <br/> 
+Sent out {sent} messages:
+{mails_sent_to}
 <br/> <br/> 
 Best Regards,
 <br/> <br/>
@@ -106,6 +110,7 @@ $_['entry_mail_admin'] = 'Admin mail body:
   <b>{product_href}</b> for product href<br/>
   <b>{product_image}</b> for product image<br/>
   <b>{product_image_href}</b> for product image href<br/>
+  <b>{sent}</b> for the number of sent messages<br/>
   <b>{store_name}</b> for store name<br/>';
 
 $_['entry_subject_costumer'] = 'Costumer mail subject:';
