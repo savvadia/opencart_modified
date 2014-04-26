@@ -19,7 +19,7 @@ Best Regards
 
 #mail admin--------------------------------------------------------------------
 
-$_['default_mail_subject_admin'] = '{store_name} -  Notices of available product {product_name} delivered - {sent} messages.';
+$_['default_mail_subject_admin'] = '{store_name} -  Notices of available product {product_name} delivered';
 
 $_['default_mail_body_admin'] =
 'Hello!

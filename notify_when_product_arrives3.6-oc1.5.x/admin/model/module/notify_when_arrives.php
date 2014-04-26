@@ -197,8 +197,7 @@ class ModelModuleNotifyWhenArrives extends Model {
 	    $filter_date
 	    AND
 	   (nwa.option_id IS NULL OR nwa.option_id = '0')
-	   $product_stock_query"; 	    if ($to_notify){			 $sql .= " limit 100"; 	    }		$this->log->write(__FILE__.":". __LINE__.": " . "FIXME to_notify=". ($to_notify ? 'true' : 'false') .", sql=".$sql);				
-	    $query = $this->db->query($sql);
+	   $product_stock_query";  	    if ($to_notify){			 $sql .= " limit 50"; 	    }	    $query = $this->db->query($sql);
   
             $image_list = array();
             $this->load->model('tool/image');
