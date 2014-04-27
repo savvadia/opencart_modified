@@ -520,13 +520,13 @@ class ControllerModuleNotifyWhenArrives extends Controller {
                             if (!$keyword || !$this->config->get('config_seo_url')){
                                
                                   $link = '<a href="' . $stores[$store_id]['url'] . 'index.php?route=product/product&amp;product_id=' . $id . '">' . $stores[$store_id]['url'] . 'index.php?route=product/product&amp;product_id=' . $id . '</a>';
-                                  $link_href =  $stores[$store_id]['url'] . 'index.php?route=product/product&amp;product_id=' . $id;
+                                  $link_href =  $stores[$store_id]['url'] . 'index.php?route=product/product&amp;product_id=' . $id;								  $link_short = "product_id=" . $id;
                                 
                             }else{
                                 
                                 
                                   $link = '<a href="' . $stores[$store_id]['url'] . $keyword.'">'. $stores[$store_id]['url'] . $keyword. '</a>';
-                                  $link_href = $stores[$store_id]['url'] . $keyword;
+                                  $link_href = $stores[$store_id]['url'] . $keyword;								  $link_short = $keyword;
                                          
                             }
                             
@@ -550,7 +550,7 @@ class ControllerModuleNotifyWhenArrives extends Controller {
 			    $admin_subject = str_replace(array('{store_name}', '{product_name}', '{product_link}','{product_image}','{sent}'), array($store_name, $name, $link, $image, $sent), $mail_admin_subject);
 			    $admin_message = str_replace(array('{store_name}', '{product_name}', '{product_link}','{product_image}','{sent}','{mails_sent_to}'), array($store_name, $name, $link, $image, $sent, $mails_sent_to), $mail_admin_message);
 
-			    $this->sendEmail($stores[$store_id], $stores[$store_id]['email'], $admin_subject, $admin_message);				$sent = 0;				$mails_sent_to = "";
+			    $this->sendEmail($stores[$store_id], $stores[$store_id]['email'], $admin_subject, $admin_message);								$this->log->write(__FILE__.":". __LINE__.": " . "NWA: product=".$link_short.", noOfSentMsgs=".$sent.", emails=" . $mails_sent_to);								$sent = 0;				$mails_sent_to = "";
 			}
 		    }
 		}
