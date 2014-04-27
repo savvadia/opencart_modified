@@ -6,17 +6,18 @@ class ModelTotalLowOrderFeeForZones extends Model {
 					$this->load->language('total/low_order_fee_for_zones');
 					
 						$getShippingPrice=$this->getZonePrice($address['zone_id'],$address['country_id']);
+						$change = round($total * $getShippingPrice/100);
 						if($getShippingPrice)
 						{
 								$total_data[] = array( 
 								'code'       => 'low_order_fee_for_zones',
 								'title'      => $this->language->get('text_low_order_fee_for_zones'),
-								'text'       => $this->currency->format($getShippingPrice),
-								'value'      => $getShippingPrice,
+								'text'       => $this->currency->format($change),
+								'value'      => $change,
 								'sort_order' => $this->config->get('low_order_fee_for_zones_sort_order')
 							);
 							
-							$total += $getShippingPrice;
+							$total += $change;
 						}
 			}
 	}

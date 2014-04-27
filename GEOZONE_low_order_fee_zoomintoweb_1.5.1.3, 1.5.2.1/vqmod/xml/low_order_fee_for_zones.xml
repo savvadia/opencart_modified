@@ -6,7 +6,7 @@
 	<file name="catalog/controller/checkout/confirm.php">
 		<operation>
 			<search position="replace"><![CDATA[ $this->{'model_total_' . $result['code']}->getTotal($total_data, $total, $taxes); ]]></search>
-			<add><![CDATA[ $this->{'model_total_' . $result['code']}->getTotal($total_data, $total, $taxes, $payment_address); ]]></add>
+			<add><![CDATA[ $this->{'model_total_' . $result['code']}->getTotal($total_data, $total, $taxes, $shipping_address); ]]></add>
 		</operation>
 	</file>
 </modification>
