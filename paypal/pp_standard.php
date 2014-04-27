@@ -38,7 +38,7 @@ class ModelPaymentPPStandard extends Model {
 			'BRL',
 			'PHP',
 			'TWD',
-			'THB',
+			'THB',			'RUB',
 			'TRY'
 		);
 		
