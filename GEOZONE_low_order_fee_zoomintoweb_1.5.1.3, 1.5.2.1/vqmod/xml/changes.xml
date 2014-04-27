@@ -1,0 +1,12 @@
+<modification>
+	<id>Low Order Total - OpenCart 1.5.1.x core file modifications</id>
+	<version>1.5.1.x</version>
+	<vqmver>1.1.0</vqmver>
+	<author>JNeuhoff</author>
+	<file name="catalog/controller/checkout/confirm.php">
+		<operation>
+			<search position="replace"><![CDATA[ $this->{'model_total_' . $result['code']}->getTotal($total_data, $total, $taxes); ]]></search>
+			<add><![CDATA[ $this->{'model_total_' . $result['code']}->getTotal($total_data, $total, $taxes, $payment_address); ]]></add>
+		</operation>
+	</file>
+</modification>
