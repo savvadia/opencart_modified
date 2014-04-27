@@ -497,7 +497,7 @@ class ControllerModuleNotifyWhenArrives extends Controller {
 
 		    $stores[$result['store_id']] = array('url' => $store_config['config_url'], 'name' => $store_config['config_name'], 'email' => $store_config['config_email']);
 		}
- 		$this->log->write(__FILE__.":". __LINE__.": " . "NWA: FIXME 31: " . http_build_query($requests['statistics'], '', ', ')); 
+ 
 		foreach ($requests['statistics'] as $store_id => $store_requests) {
 
 		    foreach ($store_requests as $language_id => $language_request) {
@@ -506,16 +506,14 @@ class ControllerModuleNotifyWhenArrives extends Controller {
 			$mail_admin_subject = $this->config->get('notify_when_arrives_subject_'.$language_id.'_admin');
 			$mail_message = html_entity_decode($this->config->get('notify_when_arrives_mail_'.$language_id.'_costumer'), ENT_QUOTES, 'UTF-8');
 			$mail_admin_message = html_entity_decode($this->config->get('notify_when_arrives_mail_'.$language_id.'_admin'), ENT_QUOTES, 'UTF-8');
+						foreach ($language_request as $request_id => $request) {
 
-			$this->log->write(__FILE__.":". __LINE__.": " . "NWA: FIXME 1: " . (string)$language_request);			$this->log->write(__FILE__.":". __LINE__.": " . "NWA: FIXME 2: " . http_build_query($language_request, '', ', '));						foreach ($language_request as $request_id => $request) {
-			$this->log->write(__FILE__.":". __LINE__.": " . "NWA: FIXME 21: I'm in the loop ");
 			    $id = $request['product_id'];
 			    $name = $request['name'];
                             $keyword = $request['keyword'];
 			    $mails = $request['mails'];
-                            if(isset($request['image'])) {								$image = '<img src="'.$request['image'].'" alt="'.$name.' image" />';
-								$image_href = $request['image'];							} else {								$image = '';								$image_href = '';							}
-                            
+							$image = '<img src="'.$request['image'].'" alt="'.$name.' image" />';
+							$image_href = $request['image'];                            
                             if (!$keyword || !$this->config->get('config_seo_url')){
                                
                                   $link = '<a href="' . $stores[$store_id]['url'] . 'index.php?route=product/product&amp;product_id=' . $id . '">' . $stores[$store_id]['url'] . 'index.php?route=product/product&amp;product_id=' . $id . '</a>';

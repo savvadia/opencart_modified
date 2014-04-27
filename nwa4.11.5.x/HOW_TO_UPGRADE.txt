@@ -1,0 +1,11 @@
+To upgrade extension version:
+
+1- if your store has high traffic, is recommended to let the store in maintenance mode before upgrading.
+
+2- Upload new files to your store
+
+3- Go to Modules > Extensions > Notify When Arrives
+
+4- Hit Edit extension
+
+5- Hit the save button to update extension configuration.

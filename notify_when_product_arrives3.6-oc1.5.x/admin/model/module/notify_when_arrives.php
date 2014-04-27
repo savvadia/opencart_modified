@@ -241,12 +241,12 @@ class ModelModuleNotifyWhenArrives extends Model {
                                 
                             }
                             
-                            $statistics[$group_id]['image'] = $image;
+                            $statistics[$store_id][$language_id][$group_id]['image'] = $image;
                             $image_list[$request['product_id']] = $image;
                             
                         }else{
                             
-                             $statistics[$group_id]['image'] = $image_list[$request['product_id']];
+                             $statistics[$store_id][$language_id][$group_id]['image'] = $image_list[$request['product_id']];
                 
                         }
 
