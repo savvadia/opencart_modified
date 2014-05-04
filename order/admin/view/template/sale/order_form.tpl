@@ -558,7 +558,7 @@
             <tfoot>
               <tr>
                 <td class="left">&nbsp;</td>
-                <td class="left"><a id="button-update" class="button"><?php echo $button_update_total; ?></a></td>
+                <td class="left"><a id="button-update" class="button"><?php echo $button_update_total; ?></a>				<div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a></div>				</td>
               </tr>
             </tfoot>
           </table>
