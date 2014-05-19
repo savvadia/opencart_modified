@@ -31,7 +31,7 @@ class ControllerCheckoutManual extends Controller {
 			foreach ($settings as $key => $value) {
 				$this->config->set($key, $value);
 			}
-			
+			$this->log->write(__FILE__.":". __LINE__.": " . "FIXME checkout/manual=".print_r($this->request->post,true));
     		// Customer
 			if ($this->request->post['customer_id']) {
 				$this->load->model('account/customer');

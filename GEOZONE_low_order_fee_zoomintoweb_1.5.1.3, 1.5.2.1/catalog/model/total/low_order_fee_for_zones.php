@@ -30,30 +30,27 @@ class ModelTotalLowOrderFeeForZones extends Model {
 		$query = $this->db->query("SELECT " . DB_PREFIX . "geo_zone.low_order_fee_for_zones_price," . DB_PREFIX . "geo_zone.low_order_total_for_zones_price FROM " . DB_PREFIX . "geo_zone," . DB_PREFIX . "zone_to_geo_zone where " . DB_PREFIX . "zone_to_geo_zone.zone_id='".$zone_id."' AND " . DB_PREFIX . "zone_to_geo_zone.geo_zone_id=" . DB_PREFIX . "geo_zone.geo_zone_id AND " . DB_PREFIX . "zone_to_geo_zone.country_id='".$country_id."'");
 			
 			$zone_data = $query->rows;
-			if($zone_data)
-			{
-				$zone_data=$zone_data[0];
-			}
-			else
+			if(!$zone_data)
 			{
 				$qQuery="SELECT " . DB_PREFIX . "geo_zone.low_order_fee_for_zones_price," . DB_PREFIX . "geo_zone.low_order_total_for_zones_price FROM " . DB_PREFIX . "geo_zone," . DB_PREFIX . "zone_to_geo_zone where " . DB_PREFIX . "zone_to_geo_zone.zone_id='0' AND " . DB_PREFIX . "zone_to_geo_zone.geo_zone_id=" . DB_PREFIX . "geo_zone.geo_zone_id AND " . DB_PREFIX . "zone_to_geo_zone.country_id='".$country_id."'";
 				$query = $this->db->query($qQuery);
 				
 				$zone_data = $query->rows;
-				$zone_found=array('low_order_total_for_zones_price' => 0, 'low_order_fee_for_zones_price' => 0);
-				
-				if($zone_data)
-				{
-					foreach($zone_data as $zone_entry) {
-						if($zone_entry['low_order_total_for_zones_price'] > $order_total &&
-						   $zone_entry['low_order_fee_for_zones_price'] < $zone_found['low_order_fee_for_zones_price'] &&
-						   $zone_entry['low_order_fee_for_zones_price'] != 0) {
-								$zone_found = $zone_entry;
-						}
+			}
+			
+			$zone_found=array('low_order_total_for_zones_price' => 0, 'low_order_fee_for_zones_price' => 0);
+			
+			if($zone_data)
+			{
+				foreach($zone_data as $zone_entry) {
+					if($zone_entry['low_order_total_for_zones_price'] > $order_total &&
+					   $zone_entry['low_order_fee_for_zones_price'] < $zone_found['low_order_fee_for_zones_price'] &&
+					   $zone_entry['low_order_fee_for_zones_price'] != 0) {
+							$zone_found = $zone_entry;
 					}
 				}
 			}
-
+			
 			return $zone_found['low_order_fee_for_zones_price'];
 	}
 }
