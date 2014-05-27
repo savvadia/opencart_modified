@@ -1,0 +1,124 @@
+﻿<modification>
+  <id>Activity</id>
+  <version>1.00</version>
+  <vqmver>2.1</vqmver>
+  <author>Diana Savvatina</author>
+
+  <file name="admin/model/sale/order.php">
+    <operation>
+      <search position="iafter"><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int)$order_id]]></search>
+      <add><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int)$order_id . "', user='". $this->user->getUserName()]]></add>
+    </operation>
+    <operation>
+      <search position="iafter"><![CDATA[$query = $this->db->query("SELECT oh.date_added, ]]></search>
+      <add><![CDATA[$query = $this->db->query("SELECT oh.date_added, oh.user, ]]></add>
+    </operation>
+
+	</file>
+	
+	
+	
+	
+  <file name="admin/controller/sale/order.php">
+    <operation>
+      <search position="after"><![CDATA[$this->data['column_comment'] = $this->language->get('column_comment');]]></search>
+      <add><![CDATA[$this->data['column_user'] = $this->language->get('column_user');]]></add>
+    </operation>
+    <operation>
+      <search position="after"><![CDATA['status'     => $result['status'],]]></search>
+      <add><![CDATA['user'     => $result['user'],]]></add>
+    </operation>
+    <operation>
+      <search position="before"><![CDATA[$this->load->model('sale/fraud');]]></search>
+      <add><![CDATA[
+	  if ( $make_it_short == True) {
+	  
+	  $this->data['column_user'] = $this->language->get('column_user');
+	  }
+	  ]]></add>
+    </operation>
+	</file>
+
+  <file name="admin/view/template/sale/order_history.tpl">
+    <operation>
+      <search position="before"><![CDATA[<td class="left"><b><?php echo $column_notify; ?></b></td>]]></search>
+      <add><![CDATA[<td class="left"><b><?php echo $column_user; ?></b></td>]]></add>
+    </operation>
+    <operation>
+      <search position="before"><![CDATA[<td class="left"><?php echo $history['notify']; ?></td>]]></search>
+      <add><![CDATA[<td class="left"><?php echo $history['user']; ?></td>]]></add>
+    </operation>
+
+	</file>
+  <file name="admin/view/template/sale/order_short_view_history.tpl" error="skip">
+    <operation>
+      <search position="before"><![CDATA[<td class="left"><b><?php echo $column_notify; ?></b></td>]]></search>
+      <add><![CDATA[<td class="left"><b><?php echo $column_user; ?></b></td>]]></add>
+    </operation>
+    <operation>
+      <search position="before"><![CDATA[<td class="left"><?php echo $history['notify']; ?></td>]]></search>
+      <add><![CDATA[<td class="left"><?php echo $history['user']; ?></td>]]></add>
+    </operation>
+
+	</file>
+  <file name="admin/view/template/sale/order_short_view_info.tpl"  error="skip">
+    <operation>
+      <search position="before"><![CDATA[<td class="left"><b><?php echo $column_notify;?></b></td>]]></search>
+      <add><![CDATA[<td class="left"><b><?php echo $column_user;?></b></td>]]></add>
+    </operation>
+    <operation>
+      <search position="before"><![CDATA[<td class="left"><?php echo $history['notify']; ?></td>]]></search>
+      <add><![CDATA[<td class="left"><?php echo $history['user']; ?></td>]]></add>
+    </operation>
+
+	</file>
+
+	
+	
+	
+	
+  <file name="admin/view/template/common/header.tpl">
+    <operation>
+      <search position="after"><![CDATA[<li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>]]></search>
+      <add><![CDATA[<li><a href="<?php echo 'index.php?route=sale/activity&amp;token=' . $this->session->data['token']; ?>"><?php echo $text_activity; ?></a></li>]]></add>
+    </operation>
+  </file>
+  
+  <file name="admin/controller/common/header.php">
+    <operation>
+      <search position="after"><![CDATA[$this->data['text_report_sale_coupon'] = $this->language->get('text_report_sale_coupon');]]></search>
+      <add><![CDATA[$this->data['text_activity'] = $this->language->get('text_activity');]]></add>
+    </operation>
+  </file>
+  
+	<file name="admin/language/english/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_report_sale_coupon']          = 'Coupons';]]></search>
+			<add><![CDATA[$_['text_activity']  = 'Store activity';]]></add>
+		</operation>
+	</file>
+	
+	<file name="admin/language/russian/common/header.php" error="skip">
+		<operation>
+			<search position="before" error="skip"><![CDATA[$_['text_report_sale_coupon']]]></search>
+			<add><![CDATA[$_['text_activity']  = 'Активность в магазине';]]></add>
+		</operation>
+	</file>
+
+  <file name="admin/language/english/sale/order.php">
+    <operation>
+      <search position="before"><![CDATA[$_['column_customer']]]></search>
+      <add><![CDATA[$_['column_user']  = 'User';]]></add>
+    </operation>
+  </file>
+
+  <file name="admin/language/russian/sale/order.php" error="skip">
+    <operation>
+      <search position="before"><![CDATA[$_['column_customer']]]></search>
+      <add><![CDATA[$_['column_user']  = 'Админ';]]></add>
+    </operation>
+  </file>
+  
+
+	
+</modification>
