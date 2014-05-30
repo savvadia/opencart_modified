@@ -1,0 +1,229 @@
+﻿<modification>
+  <id>Order short view</id>
+  <version>1.00</version>
+  <vqmver>2.1</vqmver>
+  <author>Diana Savvatina</author>
+
+
+  <file name="admin/controller/common/home.php">
+    <operation>
+      <search position="after"><![CDATA[$this->load->model('sale/order');]]></search>
+      <add><![CDATA[if (!$this->user->hasPermission('access', 'sale/order')) { $this->redirect($this->url->link('sale/order_short_view', 'token=' . $this->session->data['token'] . $url, 'SSL'));  }]]></add>
+    </operation>
+  </file>
+  
+  <file name="admin/view/template/common/header.tpl">
+    <operation>
+      <search position="after"><![CDATA[<li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>]]></search>
+      <add><![CDATA[<li><a href="<?php echo 'index.php?route=sale/order_short_view&amp;token=' . $this->session->data['token']; ?>"><?php echo $text_order_short_view; ?></a></li>]]></add>
+    </operation>
+  </file>
+  
+  <file name="admin/controller/common/header.php">
+    <operation>
+      <search position="after"><![CDATA[$this->data['text_report_sale_coupon'] = $this->language->get('text_report_sale_coupon');]]></search>
+      <add><![CDATA[$this->data['text_order_short_view'] = $this->language->get('text_order_short_view');]]></add>
+    </operation>
+  </file>
+  
+	<file name="admin/language/english/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_report_sale_coupon']          = 'Coupons';]]></search>
+			<add><![CDATA[$_['text_order_short_view']  = 'Orders without prices';
+		]]></add>
+		</operation>
+	</file>
+	
+	<file name="admin/language/russian/common/header.php" error="skip">
+		<operation>
+			<search position="before"><![CDATA[$_['text_report_sale_coupon']]]></search>
+			<add><![CDATA[$_['text_order_short_view']  = 'Заказы без цен';
+		]]></add>
+		</operation>
+	</file>
+
+	<file name="admin/controller/sale/order.php" error="skip">
+		<operation>
+			<search position="before"><![CDATA[$order_info = $this->model_sale_order->getOrder($order_id);]]></search>
+			<add><![CDATA[
+		if (isset($this->request->get['short'])) {
+			$make_it_short = True;
+		} else {
+			$make_it_short = False;
+		}  ]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[$this->template = 'sale/order_info.tpl';]]></search>
+			<add><![CDATA[
+			if ( $make_it_short == False) {
+				$this->template = 'sale/order_info.tpl';
+			} else {
+				$this->template = 'sale/order_short_view_info.tpl';
+			
+				for ($i=1; $i<=20; $i++) { 
+
+				$comment = addcslashes($this->config->get('com' .  $i . '_contents'),"\\\'\"&\n\r<>");
+				$comment = str_replace("{firstname}", ucfirst($this->data['firstname']), $comment);
+				$comment = str_replace("{lastname}", ucfirst($this->data['lastname']), $comment);
+				$comment = str_replace("{order_id}", $this->data['order_id'], $comment);
+
+				$this->data['com' . $i . '_title'] = $this->config->get('com' . $i . '_title');
+				$this->data['com' .$i . '_comment'] = $comment; 
+				}
+					// added histories
+				
+				if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+					if (!$this->user->hasPermission('modify', 'sale/order_short_view')) { 
+						$this->data['error'] = $this->language->get('error_permission');
+					}
+					
+					if (!$this->data['error']) { 
+						$this->model_sale_order->addOrderHistory($this->request->get['order_id'], $this->request->post);
+						
+						$this->data['success'] = $this->language->get('text_success');
+					}
+				}
+						
+				$this->data['text_no_results'] = $this->language->get('text_no_results');
+				$this->data['text_confirm_delete_history'] = $this->language->get('text_confirm_delete_history');
+						$this->data['column_delete_history'] = $this->language->get('column_delete_history');
+				
+				$this->data['column_date_added'] = $this->language->get('column_date_added');
+				$this->data['column_status'] = $this->language->get('column_status');
+				$this->data['column_notify'] = $this->language->get('column_notify');
+				$this->data['column_comment'] = $this->language->get('column_comment');
+
+				if (isset($this->request->get['page'])) {
+					$page = $this->request->get['page'];
+				} else {
+					$page = 1;
+				}  
+				
+				$this->data['histories'] = array();
+				$results = $this->model_sale_order->getOrderHistories($this->request->get['order_id'], 0, 1000);
+
+				foreach ($results as $result) {
+					$this->data['histories'][] = array(
+						'order_history_id' => $result['order_history_id'],
+						'notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no'),
+						'notify_bool'=> $result['notify'],
+						'status'     => $result['status'],
+						'comment'    => nl2br($result['comment']),
+						'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+					);
+				}
+				// end
+			}
+		]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA['order_id'      => $result['order_id'],]]></search>
+			<add><![CDATA['href'      => $this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&short' . $url . '&order_id=' . $result['order_id'], 'SSL'),
+		]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$this->data['column_comment'] = $this->language->get('column_comment');]]></search>
+			<add><![CDATA[$this->data['text_confirm_delete_history'] = $this->language->get('text_confirm_delete_history');
+ 		                  $this->data['column_delete_history'] = $this->language->get('column_delete_history');
+		]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA['notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no'),]]></search>
+			<add><![CDATA['notify_bool'      => $result['notify'],
+ 		                  'order_history_id' => $result['order_history_id'],
+		]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[public function history() {]]></search>
+			<add><![CDATA[
+			if (isset($this->request->get['short'])) {
+				$make_it_short = True;
+			} else {
+				$make_it_short = False;
+			}
+		]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[$pagination->url = $this->url->link('sale/order/history', 'token=' . $this->session->data['token'] . '&order_id=' . $this->request->get['order_id'] . '&page={page}', 'SSL');]]></search>
+			<add><![CDATA[
+			$short_if_needed = $make_it_short ? '&short' : '';
+			$pagination->url = $this->url->link('sale/order/history', 'token=' . $this->session->data['token'] . $short_if_needed . '&page={page}' . '&order_id=' . $this->request->get['order_id'], 'SSL');
+		]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$this->data['shipping_country'] = $order_info['shipping_country'];]]></search>
+			<add><![CDATA[
+				if ($order_info['shipping_address_format']) {
+					$format = $order_info['shipping_address_format'];
+				} else {
+					$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{country}';
+				}
+
+				$find = array(
+					'{firstname}',
+					'{lastname}',
+					'{company}',
+					'{address_1}',
+					'{address_2}',
+					'{city}',
+					'{postcode}',
+					'{zone}',
+					'{zone_code}',
+					'{country}'
+				);
+
+				$replace = array(
+					'firstname' => trim($order_info['shipping_firstname']),
+					'lastname'  => trim($order_info['shipping_lastname']),
+					'company'   => trim($order_info['shipping_company']),
+					'address_1' => trim($order_info['shipping_address_1']),
+					'address_2' => trim($order_info['shipping_address_2']),
+					'city'      => trim(ucwords($order_info['shipping_city'])),
+					'postcode'  => trim($order_info['shipping_postcode']),
+					'zone'      => trim($order_info['shipping_zone']),
+					'zone_code' => trim($order_info['shipping_zone_code']),
+					'country'   => trim($order_info['shipping_country'])
+				);
+
+				$shipping_address = ucwords(str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format)))));
+				
+				$this->data['shipping_address'] = $shipping_address;
+
+				$replace = array(
+					'firstname' => trim($order_info['payment_firstname']),
+					'lastname'  => trim($order_info['payment_lastname']),
+					'company'   => trim($order_info['payment_company']),
+					'address_1' => trim($order_info['payment_address_1']),
+					'address_2' => trim($order_info['payment_address_2']),
+					'city'      => trim(ucwords($order_info['payment_city'])),
+					'postcode'  => trim($order_info['payment_postcode']),
+					'zone'      => trim($order_info['payment_zone']),
+					'zone_code' => trim($order_info['payment_zone_code']),
+					'country'   => trim($order_info['payment_country'])
+				);
+
+				$payment_address = ucwords(str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format)))));
+				
+				$this->data['payment_address'] = $payment_address;
+				
+				$this->data['permission_allowed'] = $this->user->hasPermission('modify', 'sale/order') ? True : False;
+				
+				$this->data['href_full_view'] = $this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&order_id=' . $order_id . $url, 'SSL');
+				$this->data['href_update'] = $this->url->link('sale/order/update', 'token=' . $this->session->data['token'] . '&order_id=' . $order_id . $url, 'SSL');
+				
+				$this->data['text_view'] = $this->language->get('text_view');
+				$this->data['text_edit'] = $this->language->get('text_edit');
+				
+				]]></add>
+		</operation>
+	</file>
+
+	  <file name="admin/view/template/sale/order_list.tpl">
+    <operation>
+      <search position="replace"><![CDATA[<td class="right"><?php echo $order['order_id']; ?></td>]]></search>
+      <add><![CDATA[<td class="right"><a href="<?php echo $order['href']; ?>"><?php echo $order['order_id']; ?></a></td>]]></add>
+    </operation>
+  </file>
+ 
+	
+</modification>
