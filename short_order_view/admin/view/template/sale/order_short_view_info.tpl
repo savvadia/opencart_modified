@@ -25,7 +25,7 @@
 		if ($customer)
 		{ ?> 
 			<tr><td><?php echo $text_customer;?></td>
-			<td><a href="<?php echo $customer;?>"><?php echo $firstname . "&nbsp;" . $lastname; ?></a> <?php echo $email . "&nbsp;" . $telephone; ?></td></tr><?php
+			<td><a href="<?php echo $customer;?>"><?php echo $firstname . "&nbsp;" . $lastname; ?></a> <?php echo $telephone . "&nbsp;" . $email; ?></td></tr><?php
 		} else { ?>
 			<tr><td><?php echo $text_customer;?></td>
 			<td><?php echo $firstname . "&nbsp;" .  $lastname . ",&nbsp;" .  $email . "&nbsp;" . $telephone; ?></td></tr><?php
