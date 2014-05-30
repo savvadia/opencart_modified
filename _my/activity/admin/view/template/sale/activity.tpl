@@ -85,15 +85,21 @@
 			  <td class="right"><a href="<?php echo $order['href_short']; ?>"><?php echo $order['order_id']; ?></a></td>
               <td class="left"><?php echo $order['customer']; ?></td>
  
-                <?php if ($order['status']      == "Shipped") { ?><td class="left"><font color="magenta"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Accepted for shipping") { ?><td class="left"><font color="red"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Pending") { ?><td class="left"><font color="olive"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Complete") { ?><td class="left"><font color="green"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Collected") { ?><td class="left"><font color="pink"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Processing") { ?><td class="left"><font color="blue"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Store Collection") { ?><td class="left"><font color="red"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Pre-order") { ?><td class="left"><font color="red"><?php echo $order['status']; ?></font></td>
-				<?php } elseif ($order['status'] == "Canceled") { ?><td class="left"><font color="grey"><?php echo $order['status']; ?></font></td>
+                <?php if (strpos($order['status'], "Shipped") !== false) { ?><td class="left"><font color="brown"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Accepted for shipping") !== false) { ?><td class="left"><font color="red"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Pending") !== false) { ?><td class="left"><font color="olive"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Complete") !== false) { ?><td class="left"><font color="green"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Collected") !== false) { ?><td class="left"><font color="pink"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Processing") !== false) { ?><td class="left"><font color="blue"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Processed") !== false) { ?><td class="left"><font color="magenta"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Preparation for shipping") !== false) { ?><td class="left"><font color="magenta"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Store Collection") !== false) { ?><td class="left"><font color="red"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Pre-order") !== false) { ?><td class="left"><font color="red"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Cancelled") !== false) { ?><td class="left"><font color="grey"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Refunded") !== false) { ?><td class="left"><font color="grey"><?php echo $order['status']; ?></font></td>
+				<?php } elseif (strpos($order['status'], "Refund requested") !== false) { ?><td class="left"><font color="orange"><?php echo $order['status']; ?></font></td>
+                
+				<?php } elseif ($order['status'] == "Счёт оплачен, заказ в очереди") { ?><td class="left"><font color="red"><?php echo $order['status']; ?></font></td>
 				<?php } else { ?> <td class="left"><?php echo $order['status']; ?></td>
 				<?php } ?>
  
