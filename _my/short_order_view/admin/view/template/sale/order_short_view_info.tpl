@@ -70,7 +70,7 @@
 
 <table class="form">
 <tr><td></td><td><?php echo $text_payment_method; ?></td><td><?php echo $text_shipping_method; ?></td><td><?php echo "Refund info"; ?></td></tr>
-<tr><td></td><td><?php echo $payment_method; ?><br><br><?php echo $payment_address; ?></td><td><?php echo $shipping_method; ?><br><br><?php echo $shipping_address; ?></td><td><?php echo $email; ?><br><?php echo $text_order_id;?>&nbsp;#<?php echo $order_id;?> - <?php echo $date_added; ?><br><?php echo $shipping_address; ?></td></tr>
+<tr><td></td><td><?php echo $payment_method; ?><br><br><?php echo $payment_address; ?></td><td><?php echo $shipping_method; ?><br><br><?php echo $shipping_address; ?></td><td><?php echo $email; ?><br><?php echo $text_order_id;?>&nbsp;#<?php echo $order_id;?> - <?php echo $date_added; ?><br><?php echo $payment_address; ?></td></tr>
 </table>
 
 <table class="list">
