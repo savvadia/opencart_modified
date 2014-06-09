@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<modification>
+
+	<id>Print Address</id>
+
+	<version>1.0.0</version>
+
+	<vqmver>2.0</vqmver>
+
+	<author>Bitcom</author>
+
+	<file name="/admin/view/template/sale/order_info.tpl">
+
+		<operation>
+			<search position="replace"><![CDATA[<div class="buttons">]]></search>
+
+			<add><![CDATA[<div class="buttons"><a onclick="window.open('<?php echo $sticker; ?>');" class="button"><?php echo $button_address; ?></a>]]></add>
+
+		</operation>
+
+	</file>
+
+	<file name="/admin/view/template/sale/order_list.tpl">
+
+		<operation>
+			<search position="replace"><![CDATA[<div class="buttons">]]></search>
+
+			<add><![CDATA[<div class="buttons"><a onclick="$('#form').attr('action', '<?php echo $sticker; ?>'); $('#form').attr('target', '_blank'); $('#form').submit();" class="button"><?php echo $button_address; ?></a>]]></add>
+
+		</operation>
+
+	</file>
+
+	<file name="/admin/controller/sale/order.php">
+
+		<operation>
+			<search position="after"><![CDATA[ $this->data['invoice'] = $this->url->link('sale/order/invoice', 'token=' . $this->session->data['token'], 'SSL'); ]]></search>
+
+			<add><![CDATA[ $this->data['sticker'] = $this->url->link('sale/order/sticker', 'token=' . $this->session->data['token'] . $url, 'SSL'); ]]></add>
+
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[ $this->data['button_invoice'] = $this->language->get('button_invoice'); ]]></search>
+
+			<add><![CDATA[ $this->data['button_address'] = $this->language->get('button_address');]]></add>
+
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[ $this->data['invoice'] = $this->url->link('sale/order/invoice', 'token=' . $this->session->data['token'] . '&order_id=' . (int)$this->request->get['order_id'], 'SSL'); ]]></search>
+
+			<add><![CDATA[ $this->data['sticker'] = $this->url->link('sale/order/sticker', 'token=' . $this->session->data['token'] . '&order_id=' . (int)$this->request->get['order_id'], 'SSL'); ]]></add>
+
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[ private function validateForm() { ]]></search>
+
+			<add><![CDATA[ public function sticker() {
+		$this->load->language('sale/order');
+
+		$this->data['title'] = $this->language->get('heading_title');
+
+		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+			$this->data['base'] = HTTPS_SERVER;
+		} else {
+			$this->data['base'] = HTTP_SERVER;
+		}
+
+		$this->data['direction'] = $this->language->get('direction');
+		$this->data['language'] = $this->language->get('code');
+
+		$this->data['text_fax'] = $this->language->get('text_fax');
+		$this->data['text_telephone'] = $this->language->get('text_telephone');
+		$this->data['text_to'] = $this->language->get('text_to');
+		$this->data['text_ship_to'] = $this->language->get('text_ship_to');
+		$this->data['text_ship_from'] = $this->language->get('text_ship_from');
+
+		$this->load->model('sale/order');
+
+		if (isset($this->request->post['selected'])) {
+			$orders = $this->request->post['selected'];
+		} elseif (isset($this->request->get['order_id'])) {
+			$orders[] = $this->request->get['order_id'];
+		}
+
+		foreach ($orders as $order_id) {
+			$order_info = $this->model_sale_order->getOrder($order_id);
+
+			if ($order_info) {
+
+				if ($order_info['shipping_address_format']) {
+					$format = $order_info['shipping_address_format'];
+				} else {
+					$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{country}';
+				}
+
+				$find = array(
+					'{firstname}',
+					'{lastname}',
+					'{company}',
+					'{address_1}',
+					'{address_2}',
+					'{city}',
+					'{postcode}',
+					'{zone}',
+					'{zone_code}',
+					'{country}'
+				);
+
+				$replace = array(
+					'firstname' => trim($order_info['shipping_firstname']),
+					'lastname'  => trim($order_info['shipping_lastname']),
+					'company'   => trim($order_info['shipping_company']),
+					'address_1' => trim($order_info['shipping_address_1']),
+					'address_2' => trim($order_info['shipping_address_2']),
+					'city'      => trim(ucwords($order_info['shipping_city'])),
+					'postcode'  => trim($order_info['shipping_postcode']),
+					'zone'      => trim($order_info['shipping_zone']),
+					'zone_code' => trim($order_info['shipping_zone_code']),
+					'country'   => trim($order_info['shipping_country'])
+				);
+
+				$shipping_address = ucwords(str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format)))));
+				
+				$this->data['orders'][] = array(
+					'order_id'       	=> $order_id,
+					'store_name'       	=> $order_info['store_name'],
+					'store_url'        	=> rtrim($order_info['store_url'], '/'),
+					'fax'              	=> $this->config->get('config_fax'),
+					'email'            	=> $this->config->get('config_email'),
+					'telephone'         => $order_info['telephone'],
+					'shipping_address' 	=> $shipping_address,
+					'customer_email'   	=> $order_info['email'],
+				);
+			}
+		}
+
+		$this->template = 'sale/order_address.tpl';
+		$this->response->setOutput($this->render());
+	} ]]></add>
+
+		</operation>
+
+	</file>
+	<file name="/admin/language/english/sale/order.php">
+
+		<operation>
+			<search position="before"><![CDATA[  // Column ]]></search>
+
+			<add><![CDATA[ $_['text_ship_from']        = 'Sender:'; ]]></add>
+
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[  // Entry ]]></search>
+
+			<add><![CDATA[ $_['button_invoices']         = 'Print Invoices';
+			$_['button_address']         = 'Print Address'; ]]></add>
+
+		</operation>
+
+	</file>
+	<file name="/admin/language/russian/sale/order.php">
+
+		<operation>
+			<search position="before"><![CDATA[  // Column ]]></search>
+
+			<add><![CDATA[ $_['text_ship_from']        = 'Sender:'; ]]></add>
+
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[  // Entry ]]></search>
+
+			<add><![CDATA[ $_['button_invoices']         = 'Print Invoices';
+			$_['button_address']         = 'Print Address'; ]]></add>
+
+		</operation>
+
+	</file>
+
+</modification>
