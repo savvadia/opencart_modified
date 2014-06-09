@@ -1,0 +1,324 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Installation Manual :: Admin Order Comments</title>
+<style type="text/css">
+body {
+	-x-system-font:none;
+	background:#efefef;
+	color:#2F2F2F;
+	font-family: helvetica, verdana, sans-serif;
+	font-size:11px;
+	line-height:1.55em;
+	padding-boblockquoteom: 50px;	
+}
+table {
+background:#fff;
+}
+html {
+	min-height:100%;
+}
+
+form, input {
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+td , p,  a, span, div, li {
+	font: 11px Tahoma,  Helvetica, sans-serif;
+	padding-left:20px;
+	padding-right:20px;
+}
+a {
+	text-decoration: none;
+	color: #0B75A7;
+	outline: none;
+}
+a:hover {
+	text-decoration: none;
+}
+a img {
+	border: none;
+}
+
+blockquote{
+	background: #c5e0ec;
+	padding: 4px 10px;
+	border: 1px dotted #1d87b7;
+	display: block;
+}
+
+textarea{
+	background: none;
+	border: none;
+	width: 100%;
+	font: 11px Tahoma, Verdana, Helvetica, sans-serif;	
+}
+
+p {
+	font: 12px Tahoma, Verdana, Helvetica, sans-serif;
+	padding: 0px;
+	
+}
+h1, h2, h3, h4, h6 {
+	padding: 0px;	
+	font-family:  Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+h1 {font-size: 19px; color: #5184B6;}
+h2 {font-size: 17px; color: #5184B6;}
+h3 {font-size: 15px; color: #5184B6;}
+h4, h5, h6 {font-size: 12px;}
+
+ul, li {
+	margin: 5px 30px;;
+	padding: 0px;
+}
+
+
+
+
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+<body>
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="1" cellspacing="0" width="824">
+  <!--DWLayoutTable-->
+  <tbody>
+    <tr> 
+      <td width="819" height="45" valign="top"><div align="center">
+          <p>&nbsp;</p>
+          <p><font size="+2">Vger - Pre-set Admin Order Comments</font></p>
+        </div></td>
+    </tr>
+    <tr> 
+      <td height="57" valign="top"><p><br>
+          Adds buttons to the order history screen to speed up adding standard 
+          order comments. Order comments can be modified in the order Comments 
+          module.<o:p></o:p></p>
+        <p><br>
+          <br>
+        </p>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="1" cellspacing="0" width="824">
+  <!--DWLayoutTable-->
+  <tbody>
+    <tr> 
+      <td width="822" height="3497" valign="top"> <table align="center">
+          <tbody>
+            <tr> 
+              <td> <p>Thank you for downloading this extension. Please follow 
+                  these instructions to proceed with the installation. To configure 
+                  your new pages please see the instructions near the bottom of 
+                  this page.</p>
+                <p align="center"><strong>REMEMBER TO BACKUP YOUR FILES BEFORE 
+                  MAKING ANY CHANGES</strong></p>
+                <h3># General Information:</h3>
+                <p>In this zip file you will find the following files and folders:</p>
+                <p><strong>/upload: </strong>- If using vQmod this folder contains 
+                  everything you need.</p>
+                <p><em>vqmod</em>- In here you will find an xml vQmod file that 
+                  will alter the necessary files to make the theme work.</p>
+                <p><em>admin folder</em> - Contains the necessary files for the 
+                  extension and should be uploaded 'as is' as no files are over 
+                  written.</p>
+                <p><font color="#FF0000" size="+3"><strong>Did I mention, BACKUP 
+                  YOUR FILES FIRST.</strong></font></p>
+                <h3># Installation without using vQmod:</h3>
+                <p>Upload the admin folder (in the /upload folder) and then follow 
+                  the instructions below to manually alter existing files.</p>
+                <h3># Installation using vQmod:</h3>
+                <p>Upload the contents of the upload folder</p>
+                <p>If you have problems with the extension it may be because the 
+                  vqmod is failing or conflicting with other vqmods. Before taking 
+                  any further action please check your vqmod.log file.&nbsp; If 
+                  you have a problem with it then you may need to adjust the xml 
+                  file to get it to work properly. This is not something that 
+                  I can do for you (it will most likely be due to a conflict with 
+                  an existing vQmod or a previously altered file) so if you can't 
+                  manage to get the vQmod working then you'll need to do the manual 
+                  file edits.</p>
+                <p></p>
+                <h3># Manual file updates:</h3>
+                <p>The following files have been updated:</p>
+                <p> ../admin/controller/sale/order.php</p>
+                <p> ../admin/view/template/sale/order_info.tpl</p>
+                <p>&nbsp; </p>
+                <p align="center"><font color="#FF0000" size="+2"><strong>Just 
+                  in case you missed it, backup your files!</strong></font></p>
+                <p><strong>Edit: ../admin/controller/sale/order.php</strong></p>
+                <ul>
+                  <li> 
+                    <p>Find (around line1360) :</p>
+                    <blockquote> 
+                      <textarea name="textarea" rows="5">
+$this-&gt;template = 'sale/order_info.tpl'; 
+ </textarea>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p>&nbsp;</p>
+                <ul>
+                  <li> 
+                    <p><strong>add BEFORE:</strong></p>
+                    <blockquote> 
+                      <p> 
+                        <textarea rows="15">
+$this->data['com1_title'] = $this->config->get('com1_title');
+$this->data['com1_comment'] = addcslashes($this->config->get('com1_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com2_title'] = $this->config->get('com2_title');
+$this->data['com2_comment'] = addcslashes($this->config->get('com2_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com3_title'] = $this->config->get('com3_title');
+$this->data['com3_comment'] = addcslashes($this->config->get('com3_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com4_title'] = $this->config->get('com4_title');
+$this->data['com4_comment'] = addcslashes($this->config->get('com4_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com5_title'] = $this->config->get('com5_title');
+$this->data['com5_comment'] = addcslashes($this->config->get('com5_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com6_title'] = $this->config->get('com6_title');
+$this->data['com6_comment'] = addcslashes($this->config->get('com6_contents'),"\\\'\"&\n\r<>");  
+  </textarea>
+                      </p>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p> <br>
+                  Save the file and upload. </p>
+                <p> The checkout button in the drop down cart in the header will 
+                  now take you to the shopping cart page. </p>
+                <p> It's possible that this file will be overwritten by future 
+                  upgrades so this edit may have to be done again if/when you 
+                  upgrade. </p>
+                <p><br>
+                <p><strong>Edit: ../admin/view/template/sale/order_info.tpl </strong></p>
+                <ul>
+                  <li> 
+                    <p>Find:</p>
+                    <blockquote> 
+                      <textarea name="textarea" rows="7">
+&lt;div style=&quot;margin-top: 10px; text-align: right;&quot;&gt;&lt;a onclick=&quot;history();&quot; id=&quot;button-history&quot; class=&quot;button&quot;&gt;&lt;span&gt;&lt;?php echo $button_add_history; ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</textarea>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p>&nbsp;</p>
+                <ul>
+                  <li> 
+                    <p><strong>add AFTER:</strong></p>
+                    <blockquote> 
+                      <p> 
+                        <textarea rows="35">
+&lt;tr&gt;
+&lt;?php if ($com1_title) { ?&gt;&lt;?php echo &quot;&lt;div style=\&quot;margin-top: 10px; text-align: right; float: left;\&quot;&gt;&lt;a onclick=\&quot;orcom('$com1_comment');\&quot; id=\&quot;orcom\&quot; class=\&quot;button\&quot;&gt;&quot;; ?&gt;&lt;span&gt;&lt;?php echo $com1_title; ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;<br>
+&lt;?php } ?&gt;
+&lt;?php if ($com2_title) { ?&gt;
+&lt;?php echo &quot;&lt;div style=\&quot;margin-top: 10px; margin-left: 10px; text-align: right; float: left;\&quot;&gt;&lt;a onclick=\&quot;orcom('$com2_comment');\&quot; id=\&quot;orcom\&quot; class=\&quot;button\&quot;&gt;&quot;; ?&gt;&lt;span&gt;&lt;?php echo $com2_title; ?&gt;&lt;/span&lt;/a&gt;&lt;/div&gt;<br>
+&lt;?php } ?&gt;
+&lt;?php if ($com3_title) { ?&gt;
+&lt;?php echo &quot;&lt;div style=\&quot;margin-top: 10px; margin-left: 10px; text-align: right; float: left;\&quot;&gt;&lt;a onclick=\&quot;orcom('$com3_comment');\&quot; id=\&quot;orcom\&quot; class=\&quot;button\&quot;&gt;&quot;; ?&gt;&lt;span&gt;&lt;?php echo $com3_title; ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;<br>
+&lt;?php } ?&gt;
+&lt;?php if ($com4_title) { ?&gt;
+&lt;?php echo &quot;&lt;div style=\&quot;margin-top: 10px; margin-left: 10px; text-align: right; float: left;\&quot;&gt;&lt;a onclick=\&quot;orcom('$com4_comment');\&quot; id=\&quot;orcom\&quot; class=\&quot;button\&quot;&gt;&quot;; ?&gt;&lt;span&gt;&lt;?php echo $com4_title; ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;<br>
+&lt;?php } ?&gt;
+&lt;?php if ($com5_title) { ?&gt;
+&lt;?php echo &quot;&lt;div style=\&quot;margin-top: 10px; margin-left: 10px; text-align: right; float: left;\&quot;&gt;&lt;a onclick=\&quot;orcom('$com5_comment');\&quot; id=\&quot;orcom\&quot; class=\&quot;button\&quot;&gt;&quot;; ?&gt;&lt;span&gt;&lt;?php echo $com5_title; ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;<br>
+&lt;?php } ?&gt;
+&lt;?php if ($com6_title) { ?&gt;
+&lt;?php echo &quot;&lt;div style=\&quot;margin-top: 10px; margin-left: 10px; text-align: right; float: left;\&quot;&gt;&lt;a onclick=\&quot;orcom('$com6_comment');\&quot; id=\&quot;orcom\&quot; class=\&quot;button\&quot;&gt;&quot;; ?&gt;&lt;span&gt;&lt;?php echo $com6_title; ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;<br>
+&lt;?php } ?&gt;
+&lt;?php echo &quot;&lt;div style=\&quot;margin-top: 10px; margin-left: 10px; text-align: right; float: left;\&quot;&gt;&lt;a onclick=\&quot;orcom('');\&quot; id=\&quot;orcom\&quot; class=\&quot;button\&quot;&gt;&quot;; ?&gt;&lt;span&gt;&lt;?php echo 'Clear' ?&gt;&lt;/span&lt;/a&gt;&lt;/div&gt;<br>
+&lt;/tr&gt; </textarea>
+                      </p>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p> <br>
+                <ul>
+                  <li> 
+                    <p>Find (AT THE END OF THE FILE):</p>
+                    <blockquote> 
+                      <textarea name="textarea" rows="7">
+//--&gt;&lt;/script&gt; 
+&lt;script type=&quot;text/javascript&quot;&gt;&lt;!--
+$('.vtabs a').tabs();
+//--&gt;&lt;/script&gt; 
+</textarea>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p>&nbsp;</p>
+                <ul>
+                  <li> 
+                    <p><strong>add BEFORE</strong><strong>:</strong></p>
+                    <blockquote> 
+                      <p> 
+                        <textarea rows="7">
+function orcom(text) {
+document.getElementById('comment').value = text;
+} </textarea>
+                      </p>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p> <br>
+                <ul>
+                  <li> 
+                    <p>Find:</p>
+                    <blockquote> 
+                      <textarea name="textarea" rows="7">
+&lt;td&gt;&lt;textarea name=&quot;comment&quot; cols=&quot;40&quot; rows=&quot;8&quot; style=&quot;width: 99%&quot;&gt;&lt;/textarea&gt;
+</textarea>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p>&nbsp;</p>
+                <ul>
+                  <li> 
+                    <p><strong>REPLACE WITH</strong><strong>:</strong></p>
+                    <blockquote> 
+                      <p> 
+                        <textarea rows="7">
+&lt;td&gt;&lt;textarea name=&quot;comment&quot; id=&quot;comment&quot; cols=&quot;40&quot; rows=&quot;8&quot; style=&quot;width: 99%&quot;&gt;&lt;/textarea&gt;
+</textarea>
+                      </p>
+                    </blockquote>
+                  </li>
+                </ul>
+                <p> <br>
+                  Save the file and upload. </p>
+                <p> It's possible that this file will be overwritten by future 
+                  upgrades so this edit may have to be done again if/when you 
+                  upgrade. </p>
+                <p>&nbsp;</p>
+                <h3># Accessing your new extension:</h3>
+                <p>Navigate to admin &gt; Extensions&gt; Modules.&nbsp; You will 
+                  see a new module called 'Order Comments'</p>
+                <p>Fill in any or all off the order comments that you need.</p>
+                <p>Add a simple one or two word Title for each comment so you 
+                  can identify it on the Order History page.</p>
+                <p>Navigate to an order and click on the Order History tab and 
+                  you will see the new button(s) at the bottom.&nbsp; Click on 
+                  one to add comments to the comments box.</p>
+                <h3># That's it, enjoy!</h3>
+                <p>If you have any problems with the installtion please contact 
+                  me at admin@vger.co.uk and I'll do my best to help. Alternatively, 
+                  post on the post for this extension, in the comments for this 
+                  extension, in the extension comments pages or pm me via the 
+                  forums (user: grgr) </p>
+                <p><br>
+                  <br>
+                </p></td>
+            </tr>
+          </tbody>
+        </table></td>
+    </tr>
+    <tr> 
+      <td height="17"></td>
+    </tr>
+  </tbody>
+</table>
+
+
+</body>
+</html>

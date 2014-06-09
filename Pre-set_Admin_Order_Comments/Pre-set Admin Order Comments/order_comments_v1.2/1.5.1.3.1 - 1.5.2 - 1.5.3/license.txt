@@ -1,0 +1,45 @@
+==============================================================================
+
+Vger-Pre-set Order Comments
+
+Author: A Sutton
+E-mail: admin@vger.co.uk
+==============================================================================
+
+
+
+License:
+
+
+This Extension is provided for the default installation of OpenCart; No 
+guarantees are provided that it will work with other customizations you've made.
+
+
+
+For every license that you purchase, You are licesned to use this extension on a single installation of OpenCart. You may not use this theme for more installations licenses purchased. One purchse = one use.
+
+By purchasing this extensions you are agreeing to use it with the applicable 
+number of OpenCart installations for which you purchased it. You may not use 
+it for more installations than the software licenses purchased.
+
+
+
+
+
+Disclaimer:
+
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF 
+THE POSSIBILITY OF SUCH DAMAGE. 
+
+IF YOU DO NOT AGREE TO THIS DISCLAIMER OR LICENSE, YOU MAY NOT USE THIS 
+SOFTWARE.

@@ -1,0 +1,113 @@
+<modification>
+	<id>Admin Order Comments</id>
+	<version>1.0</version>
+	<vqmver>1.2.3</vqmver>
+	<author>grgr</author>
+	<file name="admin/controller/sale/order.php">
+        <operation>
+            <search position="before"><![CDATA[
+$this->template = 'sale/order_info.tpl';			]]>	</search>
+            <add><![CDATA[
+for ($i=1; $i<=20; $i++) { 
+$this->data['com' . $i . '_title'] = $this->config->get('com' . $i . '_title');
+$this->data['com' .$i . '_comment'] = addcslashes($this->config->get('com' .  $i . '_contents'),"\\\'\"&\n\r<>"); 
+}
+			]]></add>
+        </operation>
+	</file>
+	
+	<file name="admin/view/template/sale/order_info.tpl">
+        <operation>
+            <search position="after" index="6"><![CDATA[
+</table>
+			]]>	</search>
+            <add><![CDATA[
+			<tr>
+			  <?php if ($com1_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com1_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com1_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com2_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com2_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com2_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com3_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com3_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com3_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com4_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com4_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com4_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com5_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com5_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com5_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com6_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com6_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com6_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com7_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com7_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com7_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com8_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com8_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com8_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com9_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com9_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com9_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com10_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com10_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com10_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com11_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com11_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com11_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com12_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com12_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com12_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com13_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com13_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com13_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com14_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com14_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com14_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com15_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com15_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com15_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com16_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com16_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com16_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com17_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com17_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com17_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com18_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com18_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com18_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com19_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com19_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com19_title; ?></span></a></div>
+                <?php } ?>
+			  <?php if ($com20_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com20_comment');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo $com20_title; ?></span></a></div>
+                <?php } ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('');\" id=\"orcom\" class=\"button\">"; ?><span><?php echo 'Clear' ?></span></a></div>
+			</tr>
+			]]></add>
+        </operation>
+		
+        <operation>
+            <search position="replace"><![CDATA[
+<td><textarea name="comment" cols="40" rows="8" style="width: 99%"></textarea>
+			]]>	</search>
+            <add><![CDATA[
+<td><textarea name="comment" id="comment" cols="40" rows="8" style="width: 99%"></textarea>
+			]]></add>
+        </operation>
+		
+		
+        <operation>
+            <search position="before" index="1"><![CDATA[
+//--></script> 
+			]]>	</search>
+            <add><![CDATA[
+function orcom(text) {
+document.getElementById('comment').value = text;
+} 
+			]]></add>
+        </operation>
+	</file>
+
+</modification>

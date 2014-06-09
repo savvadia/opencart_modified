@@ -1,0 +1,66 @@
+Current version 1.2
+
+------------------------------------------------------------------------------
+
+There are 2 files that have changed from v1.0 to v1.1
+
+../vqmod/xml/order_comments.xml
+
+and
+
+../admin/view/template/module/order_comment.tpl
+
+
+If using vqmod then just overwrite these two files.
+
+
+If you are not using vqmod then:
+
+upload ../admin/view/template/module/order_comment.tpl
+
+
+
+Edit: ../admin/controller/sale/order.php
+
+Find (around line 1360):
+
+$this->data['com1_title'] = $this->config->get('com1_title');
+$this->data['com1_comment'] = $this->config->get('com1_contents');
+$this->data['com2_title'] = $this->config->get('com2_title');
+$this->data['com2_comment'] = $this->config->get('com2_contents');
+$this->data['com3_title'] = $this->config->get('com3_title');
+$this->data['com3_comment'] = $this->config->get('com3_contents');
+$this->data['com4_title'] = $this->config->get('com4_title');
+$this->data['com4_comment'] = $this->config->get('com4_contents');
+$this->data['com5_title'] = $this->config->get('com5_title');
+$this->data['com5_comment'] = $this->config->get('com5_contents');
+$this->data['com6_title'] = $this->config->get('com6_title');
+$this->data['com6_comment'] = $this->config->get('com6_contents');  
+
+
+REPLACE WITH:
+
+$this->data['com1_title'] = $this->config->get('com1_title');
+$this->data['com1_comment'] = addcslashes($this->config->get('com1_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com2_title'] = $this->config->get('com2_title');
+$this->data['com2_comment'] = addcslashes($this->config->get('com2_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com3_title'] = $this->config->get('com3_title');
+$this->data['com3_comment'] = addcslashes($this->config->get('com3_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com4_title'] = $this->config->get('com4_title');
+$this->data['com4_comment'] = addcslashes($this->config->get('com4_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com5_title'] = $this->config->get('com5_title');
+$this->data['com5_comment'] = addcslashes($this->config->get('com5_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com6_title'] = $this->config->get('com6_title');
+$this->data['com6_comment'] = addcslashes($this->config->get('com6_contents'),"\\\'\"&\n\r<>");  
+
+
+Save a re-upload.
+
+
+------------------------------------------------------------------------------
+
+v1.2 corrects a minor typo, simply replace the file:
+
+../admin/view/template/module/order_comment.tpl
+
+------------------------------------------------------------------------------

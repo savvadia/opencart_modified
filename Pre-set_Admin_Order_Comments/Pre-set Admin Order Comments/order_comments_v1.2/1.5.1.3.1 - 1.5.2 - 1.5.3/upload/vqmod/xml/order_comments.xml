@@ -1,0 +1,79 @@
+<modification>
+	<id>Admin Order Comments</id>
+	<version>1.0</version>
+	<vqmver>1.2.3</vqmver>
+	<author>grgr</author>
+	<file name="admin/controller/sale/order.php">
+        <operation>
+            <search position="before"><![CDATA[
+$this->template = 'sale/order_info.tpl';			]]>	</search>
+            <add><![CDATA[
+$this->data['com1_title'] = $this->config->get('com1_title');
+$this->data['com1_comment'] = addcslashes($this->config->get('com1_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com2_title'] = $this->config->get('com2_title');
+$this->data['com2_comment'] = addcslashes($this->config->get('com2_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com3_title'] = $this->config->get('com3_title');
+$this->data['com3_comment'] = addcslashes($this->config->get('com3_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com4_title'] = $this->config->get('com4_title');
+$this->data['com4_comment'] = addcslashes($this->config->get('com4_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com5_title'] = $this->config->get('com5_title');
+$this->data['com5_comment'] = addcslashes($this->config->get('com5_contents'),"\\\'\"&\n\r<>"); 
+$this->data['com6_title'] = $this->config->get('com6_title');
+$this->data['com6_comment'] = addcslashes($this->config->get('com6_contents'),"\\\'\"&\n\r<>");  
+			]]></add>
+        </operation>
+	</file>
+	
+	<file name="admin/view/template/sale/order_info.tpl">
+        <operation>
+            <search position="after" index="6"><![CDATA[
+</table>
+			]]>	</search>
+            <add><![CDATA[
+			<tr>
+			  <?php if ($com1_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com1_comment');\" id=\"orcom\" class=\"button\">"; ?><?php echo $com1_title; ?></a></div>
+                <?php } ?>
+			  <?php if ($com2_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com2_comment');\" id=\"orcom\" class=\"button\">"; ?><?php echo $com2_title; ?></a></div>
+                <?php } ?>
+			  <?php if ($com3_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com3_comment');\" id=\"orcom\" class=\"button\">"; ?><?php echo $com3_title; ?></a></div>
+                <?php } ?>
+			  <?php if ($com4_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com4_comment');\" id=\"orcom\" class=\"button\">"; ?><?php echo $com4_title; ?></a></div>
+                <?php } ?>
+			  <?php if ($com5_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com5_comment');\" id=\"orcom\" class=\"button\">"; ?><?php echo $com5_title; ?></a></div>
+                <?php } ?>
+			  <?php if ($com6_title) { ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com6_comment');\" id=\"orcom\" class=\"button\">"; ?><?php echo $com6_title; ?></a></div>
+                <?php } ?>
+              <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('');\" id=\"orcom\" class=\"button\">"; ?><?php echo 'Clear' ?></a></div>
+			</tr>
+			]]></add>
+        </operation>
+		
+        <operation>
+            <search position="replace"><![CDATA[
+<td><textarea name="comment" cols="40" rows="8" style="width: 99%"></textarea>
+			]]>	</search>
+            <add><![CDATA[
+<td><textarea name="comment" id="comment" cols="40" rows="8" style="width: 99%"></textarea>
+			]]></add>
+        </operation>
+		
+		
+        <operation>
+            <search position="before" index="1"><![CDATA[
+//--></script> 
+			]]>	</search>
+            <add><![CDATA[
+function orcom(text) {
+document.getElementById('comment').value = text;
+} 
+			]]></add>
+        </operation>
+	</file>
+
+</modification>
