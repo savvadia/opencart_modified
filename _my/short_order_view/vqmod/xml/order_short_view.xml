@@ -63,8 +63,8 @@
 				for ($i=1; $i<=20; $i++) { 
 
 				$comment = addcslashes($this->config->get('com' .  $i . '_contents'),"\\\'\"&\n\r<>");
-				$comment = str_replace("{firstname}", ucfirst($this->data['firstname']), $comment);
-				$comment = str_replace("{lastname}", ucfirst($this->data['lastname']), $comment);
+				$comment = str_replace("{firstname}", ucfirst(trim($order_info['payment_firstname'])), $comment);
+				$comment = str_replace("{lastname}", ucfirst(trim($order_info['payment_lastname'])), $comment);
 				$comment = str_replace("{order_id}", $this->data['order_id'], $comment);
 
 				$this->data['com' . $i . '_title'] = $this->config->get('com' . $i . '_title');
