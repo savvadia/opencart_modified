@@ -91,6 +91,7 @@ $this->data['com' .$i . '_comment'] = $comment;
               <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('$com20_comment');\" id=\"orcom\" class=\"button\">"; ?><?php echo $com20_title; ?></a></div>
                 <?php } ?>
               <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('');\" id=\"orcom\" class=\"button\">"; ?><?php echo 'Clear' ?></a></div>
+			  <?php echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a href=\"".$this->url->link('module/order_comment', 'token=' . $this->session->data['token'], 'SSL')."\" id=\"orcom\" class=\"button\">"; ?><?php echo 'Set' ?></a></div>
 			</tr>
 			]]></add>
         </operation>

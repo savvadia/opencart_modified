@@ -70,7 +70,7 @@
 
 <table class="form">
 <tr><td></td><td><?php echo $text_payment_method; ?></td><td><?php echo $text_shipping_method; ?></td><td><?php echo "Refund info"; ?></td></tr>
-<tr><td></td><td><?php echo $payment_method; ?><br><br><?php echo $payment_address; ?></td><td><?php echo $shipping_method; ?><br><br><?php echo $shipping_address; ?></td><td><?php echo $email; ?><br><?php echo $text_order_id;?>&nbsp;#<?php echo $order_id;?> - <?php echo $date_added; ?> - <?php echo $total; ?><br><?php echo $payment_address; ?></td></tr>
+<tr><td></td><td><?php echo $payment_method; ?><br><br><?php echo $payment_address; ?></td><td><?php echo $shipping_method; ?><br><br><?php echo $shipping_address; ?></td><td><?php echo $email; ?><br><?php echo $text_order_id;?>&nbsp;#<?php echo $order_id;?> - <?php echo $date_added; ?><br><?php echo $payment_address; ?></td></tr>
 </table>
 
 <table class="list">
@@ -264,11 +264,8 @@
                            <?php echo $com20_title; ?></a></div> <?php } ?>
 
 						   
-<?php
-    echo "<div style=\"margin-top: 10px; margin-left: 10px; text-align: right; float: left;\"><a onclick=\"orcom('');\" id=\"orcom\" class=\"button\">";
-?><?php
-    echo 'Clear';
-?></a></div></div>
+<div style="margin-top: 10px; margin-left: 10px; text-align: right; float: left;"><a onclick="orcom('');" id="orcom" class="button">Clear</a></div></div>
+<div style="margin-top: 10px; margin-left: 10px; text-align: right; float: left;"><a href="<?php echo $this->url->link('module/order_comment', 'token=' . $this->session->data['token'], 'SSL'); ?>" id="orcom" class="button">Set</a></div></div>
 
 <script type="text/javascript">
 $('#history .pagination a').live('click', function() {

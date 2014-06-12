@@ -21,7 +21,8 @@ class ControllerModuleOrderComment extends Controller {
 
 		for ($i=1; $i<=20; $i++) {
 
-			$this->data['tab_comment' . $i] = $this->language->get('tab_comment' . $i);
+			/* $this->data['tab_comment' . $i] = $this->language->get('tab_comment' . $i); */
+			$this->data['tab_comment' . $i] = $this->config->get('com' . $i . '_title') . " [" . $i . "]";
 			$this->data['entry_com' .$i . '_title'] = $this->language->get('entry_com' . $i . '_title');
 			$this->data['entry_com' .$i . '_contents'] = $this->language->get('entry_com' . $i . '_contents');
 		
