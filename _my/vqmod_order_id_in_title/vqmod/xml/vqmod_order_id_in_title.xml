@@ -1,0 +1,21 @@
+﻿<modification>
+  <id>Order ID in title</id>
+  <version>1.00</version>
+  <vqmver>2.1</vqmver>
+  <author>Diana Savvatina</author>
+
+	<file name="admin/controller/sale/order.php" error="skip">
+		<operation>
+			<search position="replace"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[
+		if (isset($order_id)) {
+			$this->document->setTitle($order_id . " - " .$this->language->get('heading_title'));
+		} else {
+			$this->document->setTitle($this->language->get('heading_title'));
+		}  ]]></add>
+		</operation>
+
+  </file>
+ 
+	
+</modification>
