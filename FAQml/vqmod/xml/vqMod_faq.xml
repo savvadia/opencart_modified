@@ -50,4 +50,30 @@
 			<add><![CDATA[<a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a><a href="<?php echo $faq; ?>"><?php echo $text_faq; ?></a>]]></add>
 		</operation>
 	</file>
+	
+	
+	
+	
+	<file name="catalog/controller/common/footer.php">
+		<operation>
+			<search position="after"><![CDATA[$this->data['text_contact'] = $this->language->get('text_contact');]]></search>
+			<add><![CDATA[$this->data['text_faq'] = $this->language->get('text_faq');]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$this->data['contact'] = $this->url->link('information/contact');]]></search>
+			<add><![CDATA[$this->data['faq'] = $this->url->link('faq/faq');]]></add>
+		</operation>
+	</file>	
+	<file name="catalog/language/english/common/footer.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_contact']]]></search>
+			<add><![CDATA[$_['text_faq']           = 'FAQ';]]></add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/default/template/common/footer.tpl">
+		<operation>
+			<search position="after"><![CDATA[<li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>]]></search>
+			<add><![CDATA[<li><a href="<?php echo $faq; ?>"><?php echo $text_faq; ?></a></li>]]></add>
+		</operation>
+	</file>
 </modification>
