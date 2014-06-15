@@ -79,12 +79,26 @@
 
 		if (isset($this->request->post['selected'])) {
 			$orders = $this->request->post['selected'];
+			asort($orders);
 		} elseif (isset($this->request->get['order_id'])) {
 			$orders[] = $this->request->get['order_id'];
 		}
 
 		foreach ($orders as $order_id) {
 			$order_info = $this->model_sale_order->getOrder($order_id);
+			$totals_info = $this->model_sale_order->getOrderTotals($order_id);
+			
+			$total_shipping = 0;
+			
+			if ($totals_info) {
+				foreach($totals_info as $total_entry) {
+					if($total_entry['code'] == "shipping") {
+						$total_shipping += $total_entry['value'];
+					}
+				}
+	
+			}
+			
 
 			if ($order_info) {
 
@@ -121,17 +135,23 @@
 				);
 
 				$shipping_address = ucwords(str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format)))));
+			
+				$noOfStickers = (strpos($order_info['shipping_method'], "EMS") === false) ? ceil($total_shipping/10) : 3;
 				
-				$this->data['orders'][] = array(
-					'order_id'       	=> $order_id,
-					'store_name'       	=> $order_info['store_name'],
-					'store_url'        	=> rtrim($order_info['store_url'], '/'),
-					'fax'              	=> $this->config->get('config_fax'),
-					'email'            	=> $this->config->get('config_email'),
-					'telephone'         => $order_info['telephone'],
-					'shipping_address' 	=> $shipping_address,
-					'customer_email'   	=> $order_info['email'],
-				);
+				for($stickerIx=0; $stickerIx < $noOfStickers; $stickerIx++) {
+					$this->data['orders'][] = array(
+						'order_id'       	=> ($noOfStickers > 1) ? $order_id." [".$noOfStickers."]" : $order_id,
+						'store_name'       	=> $order_info['store_name'],
+						'store_url'        	=> rtrim($order_info['store_url'], '/'),
+						'fax'              	=> $this->config->get('config_fax'),
+						'email'            	=> $this->config->get('config_email'),
+						'telephone'         => $order_info['telephone'],
+						'shipping_address' 	=> $shipping_address,
+						'customer_email'   	=> $order_info['email'],
+					);				
+				}
+				
+
 			}
 		}
 
@@ -142,6 +162,7 @@
 		</operation>
 
 	</file>
+
 	<file name="/admin/language/english/sale/order.php">
 
 		<operation>
