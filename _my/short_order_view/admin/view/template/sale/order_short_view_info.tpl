@@ -12,6 +12,7 @@
 	<h1><img src="view/image/order.png" alt="" /> <?php echo $heading_title;?></h1>
 	
 	<div class="buttons">
+	<a onclick="window.open('<?php echo $sticker; ?>');" class="button"><?php echo $button_address; ?></a>
 	<a onclick="location = '<?php echo $href_full_view;?>';" class="button"><?php echo $text_view;?></a>
 	<a onclick="window.open('<?php echo $href_update; ?>');" class="button"><?php echo $text_edit; ?></a>
 	<a onclick="window.open('<?php echo $invoice; ?>');" class="button"><?php echo $button_invoice; ?></a>
