@@ -46,7 +46,8 @@ class ControllerFaqFaq extends Controller {
 	public function listQuestions(){
 		$this->load->model('faq/faq');
 		$this->load->language('faq/faq');
-		$language_id = $this->model_faq_faq->getLanguageByCode($this->session->data['language']);
+		// $language_id = $this->model_faq_faq->getLanguageByCode($this->session->data['language']);
+		$language_id = $this->model_faq_faq->getLanguageByCode('en'); /* always English */
 
 		$faq_categories = array();
 		$faq = array();	
@@ -88,7 +89,8 @@ class ControllerFaqFaq extends Controller {
 	public function search(){
 		$this->load->model('faq/faq');
 		$this->load->language('faq/faq');
-		$language_id = $this->model_faq_faq->getLanguageByCode($this->session->data['language']);		
+		// $language_id = $this->model_faq_faq->getLanguageByCode($this->session->data['language']);
+		$language_id = $this->model_faq_faq->getLanguageByCode('en'); /* always English */
 				
 		$faq_categories = array();
 		$i=0;
