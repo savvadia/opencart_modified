@@ -185,7 +185,7 @@
 			    <?php if ($option['type'] == 'select') { ?>
 				name="option[<?php echo $option['product_option_id']; ?>]" onchange="$(this).nwaOption('<?php echo isset($option['option_value'][0]['option_id']) ? $option['option_value'][0]['option_id']: $option['option_id'];?>',$('option:selected', this).val(),'<?php echo $option['name']; ?>',$('option:selected', this).text());" 
 			    <?php }else{ ?>
-				name="option[<?php echo $option['product_option_id']; ?>]" onchange="$(this).nwaOption('<?php echo isset($option_value['option_id']) ? $option_value['option_id']: $option['option_id'];?>',$(this).val(),'<?php echo $option['name']; ?>','<?php echo $option_value['name']; ?>');" 
+				name="option[<?php echo $option['product_option_id']; ?>]" onchange="$(this).nwaOption('<?php echo isset($option_value['option_id']) ? $option_value['option_id']: $option['option_id'];?>',$(this).val(),'<?php echo $option['name']; ?>','<?php isset($option_value['name']) ? $option_value['name']: $option['name']; ?>');" 
 			    <?php } ?>
 			<?php }else{ ?>
 				name="option[<?php echo $option['product_option_id']; ?>]"
