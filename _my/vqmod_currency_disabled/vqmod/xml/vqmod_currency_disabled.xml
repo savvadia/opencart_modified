@@ -1,0 +1,32 @@
+﻿<modification>
+  <id>Switch to default currency if currency in the cookie is disabled</id>
+  <version>1.00</version>
+  <vqmver>2.1</vqmver>
+  <author>Diana Savvatina</author>
+
+	<file name="system/library/currency.php" error="skip">
+
+		<operation>
+			<search position="after"><![CDATA['decimal_place' => $result['decimal_place'],]]></search>
+			<add><![CDATA['status'        => $result['status'],]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[if (isset($this->request->get['currency']) && (array_key_exists($this->request->get['currency'], $this->currencies))) {]]></search>
+			<add><![CDATA[if (isset($this->request->get['currency']) && (array_key_exists($this->request->get['currency'], $this->currencies)) && $this->currencies[$this->request->get['currency']]['status']) {]]></add>
+		</operation>
+		
+		<operation>
+			<search position="replace"><![CDATA[} elseif ((isset($this->session->data['currency'])) && (array_key_exists($this->session->data['currency'], $this->currencies))) {]]></search>
+			<add><![CDATA[} elseif ((isset($this->session->data['currency'])) && (array_key_exists($this->session->data['currency'], $this->currencies))  && $this->currencies[$this->session->data['currency']]['status']) {]]></add>
+		</operation>
+		
+		<operation>
+			<search position="replace"><![CDATA[} elseif ((isset($this->request->cookie['currency'])) && (array_key_exists($this->request->cookie['currency'], $this->currencies))) {]]></search>
+			<add><![CDATA[} elseif ((isset($this->request->cookie['currency'])) && (array_key_exists($this->request->cookie['currency'], $this->currencies))  && $this->currencies[$this->request->cookie['currency']]['status']) {]]></add>
+		</operation>
+		
+  </file>
+ 
+	
+</modification>
