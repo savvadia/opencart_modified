@@ -167,7 +167,7 @@ class ControllerModuleNotifyWhenArrives extends Controller {
                         $this->sendEmail($subject, $message);
                     }
 
-                    $json = array('sucess' => $reg_status, 'msg' => $this->language->get('text_success'));
+                    $json = array('sucess' => $reg_status, 'msg' => $this->language->get('text_success'));					if ($reg_status === 'exists') {						$json = array('sucess' => $reg_status, 'msg' => $this->language->get('text_already_subscribed'));					}
                 } else {
 
                     $json = array('sucess' => $reg_status, 'msg' => $this->language->get('text_error_mail'));

@@ -104,8 +104,9 @@ class ModelModuleNotifyWhenArrives extends Model {
 	
 	if ($this->config->get('notify_when_arrives_installed')) {
 
-	    $sql = "
-	    SELECT
+	    $this->db->query('SET SQL_BIG_SELECTS=1');
+		$sql = "
+		SELECT
 	    nwa.id,
 	    nwa.user,
             nwa.phone,

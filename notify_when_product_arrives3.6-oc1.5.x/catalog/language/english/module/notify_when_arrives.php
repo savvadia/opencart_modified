@@ -9,6 +9,7 @@ $_['text_description']  = 'Enter your email to be informed when this product arr
 $_['text_description_2']  = 'Fill this form to be informed when this product arrives:';
 
 $_['text_success'] =  'DONE:<br/>Now you are subscribed to stock updates!<br/>You will be informed when this product arrives. Thank You!';
+$_['text_already_subscribed'] =  'DONE:<br/>You are already subscribed to stock updates.<br/>You will be informed when this product arrives. Thank You!';
 
 $_['mail_admin_subject'] =  'New request for out of stock product - {product_name}';
 

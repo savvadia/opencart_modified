@@ -159,7 +159,7 @@
             </search>
             <add><![CDATA[
  
-			if ($nwa_enabled || (!$option_value['subtract'] || ($option_value['quantity'] > 0))) { 
+			if (($nwa_enabled && $product_info['quantity'] <= 0) || (!$option_value['subtract'] || ($option_value['quantity'] > 0))) { 
 			
 			    if ($nwa_enabled){
 
