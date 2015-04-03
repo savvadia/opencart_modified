@@ -1,0 +1,68 @@
+﻿<modification>
+  <id>Activity</id>
+  <version>1.00</version>
+  <vqmver>2.1</vqmver>
+  <author>Diana Savvatina</author>
+
+  <file name="admin/model/sale/order.php">
+    <operation>
+      <search position="iafter"><![CDATA[$this->db->query("INSERT INTO `" . DB_PREFIX . "order` SET invoice_prefix = '"]]></search>
+      <add><![CDATA[
+	  if($data['payment_code'] == 'pp_standard') {
+		$payment_paypal_receiver = $this->config->get('pp_standard_email');
+	  } else {
+		$payment_paypal_receiver = "";
+	  } 
+	  $this->db->query("INSERT INTO `" . DB_PREFIX . "order` SET payment_paypal_receiver='" . $this->db->escape($payment_paypal_receiver) . "', invoice_prefix = '"]]></add>
+    </operation>
+    <operation>
+      <search position="after"><![CDATA['payment_code'            => $order_query->row['payment_code'],]]></search>
+      <add>                    <![CDATA['payment_paypal_receiver' => $order_query->row['payment_paypal_receiver'],]]></add>
+    </operation>
+
+	</file>
+	
+  <file name="admin/controller/sale/order.php">
+    <operation>
+      <search position="after"><![CDATA[$this->data['text_payment_method'] = $this->language->get('text_payment_method');]]></search>
+      <add>                    <![CDATA[$this->data['text_payment_paypal_receiver'] = $this->language->get('text_payment_paypal_receiver');]]></add>
+    </operation>
+    <operation>
+      <search position="before"><![CDATA[$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value']);]]></search>
+      <add><![CDATA[$this->data['payment_paypal_receiver'] = $order_info['payment_paypal_receiver'];]]></add>
+    </operation>
+
+	</file>
+
+	  <file name="admin/view/template/sale/order_short_view.php">
+    <operation>
+      <search position="iafter"><![CDATA[<?php echo $payment_method; ?>]]></search>
+      <add>                     <![CDATA[<?php echo $payment_method; ?><br><?php echo $payment_paypal_receiver; ?>]]></add>
+    </operation>
+	</file>
+
+	  <file name="admin/view/template/sale/order_info.php">
+    <operation>
+      <search position="iafter"><![CDATA[<?php echo $payment_method; ?>]]></search>
+      <add>                     <![CDATA[<?php echo $payment_method; ?><br><?php echo $payment_paypal_receiver; ?>]]></add>
+    </operation>
+	</file>
+
+	
+  <file name="admin/language/english/sale/order.php">
+    <operation>
+      <search position="before"><![CDATA[$_['text_payment_method']]]></search>
+      <add><![CDATA[$_['text_payment_paypal_receiver']  = 'PayPal receiver';]]></add>
+    </operation>
+  </file>
+
+  <file name="admin/language/russian/sale/order.php" error="skip">
+    <operation>
+      <search position="before"><![CDATA[$_['text_payment_method']]]></search>
+      <add><![CDATA[$_['text_payment_paypal_receiver']  = 'Получатель PayPal';]]></add>
+    </operation>
+  </file>
+  
+
+	
+</modification>
