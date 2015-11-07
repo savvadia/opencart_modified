@@ -25,8 +25,8 @@
     <operation>
       <search position="before"><![CDATA[if (!empty($data['filter_order_id'])) {]]></search>
       <add><![CDATA[
-    if (!is_null($data['filter_product_id'])) {
-          $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-4 MODEL data-filter_product_id=".print_r($data['filter_product_id'],true));
+    if (!empty($data['filter_product_id'])) {
+          // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-4 MODEL data-filter_product_id=".print_r($data['filter_product_id'],true));
         $list_of_products="";
         foreach ($data['filter_product_id'] as $key=>$product_id) {
           $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-12 MODEL data-key=".$key);
@@ -35,9 +35,9 @@
           }
           $list_of_products .= $product_id;
         }
-        $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-5 MODEL list_of_products=".$list_of_products);
+        // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-5 MODEL list_of_products=".$list_of_products);
         $sql .= " AND o.order_id in ( SELECT o.order_id from `order` o, `order_product` op where o.order_id=op.order_id and product_id in (".$list_of_products."))";
-        $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-6 MODEL sql=".$sql);
+        // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-6 MODEL sql=".$sql);
     }
     ]]></add>
     </operation>
@@ -45,106 +45,123 @@
 
   <file name="admin/controller/sale/order.php">
     <operation>
-      <search position="before"><![CDATA['action'        => $action]]></search>
+      <search position="before"><![CDATA['order_id'      => $result['order_id'],]]></search>
       <add><![CDATA['products'        => $result['products'],]]></add>
     </operation>
   
   <operation>
-    <search position="before"><![CDATA[$this->data['column_action'] = $this->language->get('column_action');]]></search>
-      <add><![CDATA[$this->data['column_products'] = $this->language->get('column_products');]]></add>
+    <search position="after"><![CDATA[$data['column_order_id'] = $this->language->get('column_order_id');]]></search>
+      <add><![CDATA[$data['column_products'] = $this->language->get('column_products');]]></add>
   </operation>
 
-  <operation>
+  <operation error="skip">
     <search position="before"><![CDATA[$this->data['filter_date_modified'] = $filter_date_modified;]]></search>
       <add><![CDATA[
     
     $this->load->model('catalog/product');
       $this->data['products'] = $this->model_catalog_product->getProducts();
-    $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-3 data=".print_r($data['products'], true));
+    // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-3 data=".print_r($data['products'], true));
+    
+    ]]></add>
+  </operation>
+  <operation error="skip">
+    <search position="before"><![CDATA[$data['filter_date_modified'] = $filter_date_modified;]]></search>
+      <add><![CDATA[
+    
+    $this->load->model('catalog/product');
+      $data['products'] = $this->model_catalog_product->getProducts();
+    // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-3 data=".print_r($data['products'], true));
     
     ]]></add>
   </operation>
 
-    <operation>
-      <search position="before"><![CDATA[$this->data['filter_order_status_id'] = $filter_order_status_id;]]></search>
+    <operation error="skip">
+      <search position="before"><![CDATA[$this->data['filter_order_id'] = $filter_order_id;]]></search>
       <add><![CDATA[$this->data['filter_product_id'] = $filter_product_id;]]></add>
     </operation>
-  
+    <operation error="skip">
+      <search position="after"><![CDATA[$data['filter_order_id'] = $filter_order_id;]]></search>
+      <add><![CDATA[$data['filter_product_id'] = $filter_product_id;]]></add>
+    </operation>
 
     <operation>
-      <search position="after"><![CDATA[$filter_order_status_id = null;]]></search>
+      <search position="after"><![CDATA[$filter_order_id = null;]]></search>
       <add><![CDATA[
     }
     
     if (isset($this->request->get['filter_product_id'])) {
       $filter_product_id = $this->request->get['filter_product_id'];
-      $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-10 get-filter_product_id=".$this->request->get['filter_product_id']);
+      // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-10 get-filter_product_id=".$this->request->get['filter_product_id']);
     } else {
       $filter_product_id = null;
-      $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-8 filter_product_id is empty");
+      // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-8 filter_product_id is empty");
     ]]></add>
     </operation>
 
+
     <operation>
-      <search position="after"><![CDATA[$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];]]></search>
+      <search position="after"><![CDATA[$url .= '&filter_order_id=' . $this->request->get['filter_order_id'];]]></search>
       <add><![CDATA[
     }
     
     if (isset($this->request->get['filter_product_id'])) {
-      $url .= '&filter_product_id=' . (int)$this->request->get['filter_product_id'];
+      $url .= '&filter_product_id=' . $this->request->get['filter_product_id'];
     ]]></add>
     </operation>
 
     <operation>
-      <search position="before"><![CDATA['filter_order_status_id' => $filter_order_status_id,]]></search>
+      <search position="before"><![CDATA[=> $filter_order_id,]]></search>
       <add><![CDATA['filter_product_id' => is_null($filter_product_id) ? null : array("'".$filter_product_id."'"), ]]></add>
     </operation>
 
-    <operation>
-      <search position="after"><![CDATA[$this->data['delete'] = $this->url->link('sale/order/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');]]></search>
+    <operation error="skip">
+      <search position="after"><![CDATA[$data['add'] = $this->url->link('sale/order/add', 'token=' . $this->session->data['token'], 'SSL');]]></search>
       <add><![CDATA[
         $this->load->model('catalog/product');
-            $data = array(
-      'sort'            => 'model',
-      'order'           => 'ASC'
-    );
-    
-  $results = $this->model_catalog_product->getProducts($data);
-  foreach ($results as $result) {
-              
-    if(!$result['status']) {
-      continue;
-    }
-    $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-20 filter list product_id=".$result['model']);
-    
-  
-          $this->data['products_list'][] = array(
-        'product_id' => $result['product_id'],
-        'model'      => $result['model']        
-      );
-      }
-      
+            $data_filter = array(
+          'sort'            => 'model',
+          'order'           => 'ASC'
+        );
+        
+      $results = $this->model_catalog_product->getProducts($data_filter);
+      foreach ($results as $result) {
+          if(!$result['status']) {
+            continue;
+          }
+          // $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-20 filter list product_id=".$result['model']);
+              $data['products_list'][] = array(
+                'product_id' => $result['product_id'],
+                'model'      => $result['model']        
+          );
+        }
       ]]></add>
     </operation>
 
-
   </file> 
+
+
 
   
   <file name="admin/view/template/sale/order_list.tpl">
-    <operation>
+    <operation error="skip">
       <search position="before"><![CDATA[<td class="right"><?php echo $column_action; ?></td>]]></search>
       <add><![CDATA[<td class="right"><?php echo $column_products; ?></td>]]></add>
     </operation>
+    <operation error="skip">
+      <search position="before"><![CDATA[<td class="text-right"><?php echo $column_action; ?></td>]]></search>
+      <add><![CDATA[<td class="text-right"><?php echo $column_products; ?></td>]]></add>
+    </operation>
 
-    <operation>
+
+
+    <operation error="skip">
       <search position="before"><![CDATA[<td align="right"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>]]></search>
       <add><![CDATA[
     
               <td><select name="filter_product_id">
 
           <option value="*"></option>         
-                  <?php $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-1 TPL filter_product_id=".$filter_product_id); ?>
+                 // <?php $this->log->write(__FILE__.":". __LINE__.": " . "FIXME-1 TPL filter_product_id=".$filter_product_id); ?>
           
           <?php foreach ($products_list as $product) { ?>
             <?php if(isset($filter_product_id) && $product['product_id'] == $filter_product_id) { ?>
@@ -156,31 +173,64 @@
                 </select></td>    
    ]]></add>
     </operation>
+    <operation error="skip">
+      <search position="after"><![CDATA[<input type="text" name="filter_total" value="<?php echo $filter_total; ?>" placeholder="<?php echo $entry_total; ?>" id="input-total" class="form-control" />]]></search>
+      <add><![CDATA[
 
-    <operation>
+              </div>        
+              <div class="form-group">
+                <label class="control-label" for="input-product_id"><?php echo $column_products; ?></label>
+              <select name="filter_product_id" id="input-product_id" class="form-control">
+
+                <option value="*"></option>         
+                console.info(filter_product_id);
+                
+                <?php foreach ($products_list as $product) { ?>
+                    <?php if(isset($filter_product_id) && $product['product_id'] == $filter_product_id) { ?>
+                      <option value="<?php echo $product['product_id']; ?>" selected="selected"><?php echo $product['model']; ?></option>
+                    <?php } else { ?>
+                      <option value="<?php echo $product['product_id']; ?>"><?php echo $product['model']; ?></option>
+                    <?php } ?>
+                <?php } ?>
+                </select>    
+   ]]></add>
+    </operation>
+
+    <operation error="skip">
       <search position="before"><![CDATA[<td class="right"><?php foreach ($order['action'] as $action) { ?>]]></search>
       <add><![CDATA[<td class="left"><?php echo $order['products']; ?></td>]]></add>
     </operation>
+    <operation error="skip">
+      <search position="after"><![CDATA[<td class="text-left"><?php echo $order['date_modified']; ?></td>]]></search>
+      <add><![CDATA[<td class="text-left"><?php echo $order['products']; ?></td>]]></add>
+    </operation>
 
-    <operation>
+    <operation error="skip">
       <search position="after"><![CDATA[var filter_order_status_id = $('select[name=\'filter_order_status_id\']').attr('value');]]></search>
       <add><![CDATA[
   var filter_product_id = $('select[name=\'filter_product_id\']').attr('value');
-  console.error("FIXME2 - filter_product_id");
   console.info(filter_product_id);
-  console.error("FIXME2 - filter_order_status_id");
-  console.info(filter_order_status_id);
 
-  
   if (filter_product_id != '*' && filter_product_id != '') {
     url += '&filter_product_id=' + encodeURIComponent(filter_product_id);
   } 
   
    ]]></add>
     </operation>
+    <operation error="skip">
+      <search position="before"><![CDATA[var filter_order_id = $('input[name=\'filter_order_id\']').val();]]></search>
+      <add><![CDATA[
+  var filter_product_id = $('select[name=\'filter_product_id\']').val();
+  
+  if (filter_product_id && filter_product_id != '*') {
+    url += '&filter_product_id=' + encodeURIComponent(filter_product_id);
+  }
+  console.info(filter_product_id);
+   ]]></add>
+    </operation>
 
-    <operation>
-      <search position="replace" error="skip"><![CDATA[[ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]]]></search>
+    <operation error="skip">
+      <search position="replace"><![CDATA[[ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]]]></search>
       <add><![CDATA[<a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a>]]></add>
     </operation>
   
@@ -188,7 +238,7 @@
 
   
   
-  <file name="admin/controller/common/home.php">
+  <file name="admin/controller/common/home.php" error="skip">
     <operation>
       <search position="before"><![CDATA['action'     => $action]]></search>
       <add><![CDATA['products'        => $result['products'],]]></add>
@@ -200,7 +250,7 @@
   </operation>
   </file>
 
-  <file name="admin/view/template/common/home.tpl">
+  <file name="admin/view/template/common/home.tpl" error="skip">
     <operation>
       <search position="before"><![CDATA[<td class="right"><?php echo $column_action; ?></td>]]></search>
       <add><![CDATA[<td class="right"><?php echo $column_products; ?></td>]]></add>
@@ -212,7 +262,7 @@
     </operation>
   </file>
 
-  <file name="admin/language/english/common/home.php">
+  <file name="admin/language/english/common/home.php" error="skip">
     <operation>
       <search position="before"><![CDATA[$_['column_action']]]></search>
       <add><![CDATA[$_['column_products'] = 'Products';]]></add>
