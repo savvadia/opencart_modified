@@ -7,9 +7,13 @@
   <file name="admin/model/sale/order.php">
     <operation>
       <search position="ireplace"><![CDATA[o.date_added, o.date_modified]]></search>
-      <add><![CDATA[o.date_added, o.date_modified, (SELECT GROUP_CONCAT( CONCAT(op.quantity,  ' x ', op.model) SEPARATOR '<br />' ) AS p FROM `order_product` op
-						WHERE o.order_id = op.order_id
-						GROUP BY op.order_id) as products 
+      <add><![CDATA[o.date_added, o.date_modified, (SELECT  GROUP_CONCAT( CONCAT_WS(' ', op.quantity,  'x', op.model, opt.options) SEPARATOR '<br />' ) AS p 
+					FROM `order_product` op 
+					left join (select  order_product_id, GROUP_CONCAT(value) AS options 
+					from `order_option` oo 
+					group by order_product_id) opt ON op.order_product_id = opt.order_product_id 
+					where op.order_id=o.order_id
+					) as products 
 						]]></add>
     </operation>
 
@@ -149,9 +153,13 @@
 	 ]]></add>
     </operation>
 
+    <operation>
+      <search position="replace" error="skip"><![CDATA[[ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]]]></search>
+      <add><![CDATA[<a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a>]]></add>
+    </operation>
+	
 	</file>
 
-	
 	
   
   <file name="admin/controller/common/home.php">

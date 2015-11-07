@@ -1,0 +1,44 @@
+﻿<modification>
+  <id>Orders Statuses Report</id>
+  <version>1.00</version>
+  <vqmver>2.1</vqmver>
+  <author>Diana Savvatina</author>
+  
+  <file name="admin/view/template/common/header.tpl">
+    <operation>
+      <search position="after"><![CDATA[<li><a href="<?php echo $report_product_purchased; ?>"><?php echo $text_report_product_purchased; ?></a></li>]]></search>
+      <add><![CDATA[<li><a href="<?php echo 'index.php?route=report/product_by_state&token=' . $this->session->data['token']; ?>"><?php echo $text_report_products_product_by_state; ?></a></li>]]></add>
+    </operation>
+  </file>
+  <file name="admin/controller/common/header.php">
+    <operation>
+      <search position="after"><![CDATA[$this->data['text_report_product_purchased'] = $this->language->get('text_report_product_purchased');]]></search>
+      <add><![CDATA[$this->data['text_report_products_product_by_state'] = $this->language->get('text_report_products_product_by_state');]]></add>
+    </operation>
+  </file>
+  
+  	<file name="admin/language/english/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_report_product_purchased']    = 'Purchased';]]></search>
+			<add><![CDATA[$_['text_report_products_product_by_state']  = 'Products By States';
+		]]></add>
+		</operation>
+	</file>
+	<file name="admin/language/russian/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_report_product_purchased']    = 'Куплено';]]></search>
+			<add><![CDATA[$_['text_report_products_product_by_state']  = 'Продукты по статусам';
+		]]></add>
+		</operation>
+	</file>
+
+  <file name="admin/model/report/product.php">
+    <operation>
+      <search position="replace"><![CDATA[$sql = "SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.total * op.tax / 100) AS total FROM " . DB_PREFIX . "order_product op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";]]></search>
+      <add><![CDATA[$sql = "SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total) AS total FROM " . DB_PREFIX . "order_product op LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id)";]]></add>
+    </operation>
+  </file>
+  
+  
+	
+</modification>

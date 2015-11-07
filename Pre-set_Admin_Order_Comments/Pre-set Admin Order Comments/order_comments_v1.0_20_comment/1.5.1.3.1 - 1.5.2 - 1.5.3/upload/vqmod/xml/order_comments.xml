@@ -15,7 +15,9 @@ $comment = str_replace("{firstname}", ucfirst(trim($order_info['payment_firstnam
 $comment = str_replace("{lastname}", ucfirst(trim($order_info['payment_lastname'])), $comment);
 $comment = str_replace("{order_id}", $this->data['order_id'], $comment);
 $comment = str_replace("{total}", $this->data['total'], $comment);
-$comment = str_replace("{comment}", $this->data['comment'], $comment);
+$tmp_order_comment = $this->data['comment'];
+$tmp_order_comment = preg_replace('#<br(\s+)?\/?>#i', "\n", $this->data['comment']);
+$comment = str_replace("{comment}", $tmp_order_comment, $comment);
 
 $this->data['com' . $i . '_title'] = $this->config->get('com' . $i . '_title');
 $this->data['com' .$i . '_comment'] = $comment; 

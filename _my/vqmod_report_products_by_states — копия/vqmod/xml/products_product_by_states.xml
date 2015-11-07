@@ -1,0 +1,35 @@
+﻿<modification>
+  <id>Orders Statuses Report</id>
+  <version>1.00</version>
+  <vqmver>2.1</vqmver>
+  <author>Diana Savvatina</author>
+  
+  <file name="admin/view/template/common/header.tpl">
+    <operation>
+      <search position="after"><![CDATA[<li><a href="<?php echo $report_product_purchased; ?>"><?php echo $text_report_product_purchased; ?></a></li>]]></search>
+      <add><![CDATA[<li><a href="<?php echo 'index.php?route=report/product_by_states&token=' . $this->session->data['token']; ?>"><?php echo $text_report_products_product_by_states; ?></a></li>]]></add>
+    </operation>
+  </file>
+  <file name="admin/controller/common/header.php">
+    <operation>
+      <search position="after"><![CDATA[$this->data['text_report_product_purchased'] = $this->language->get('text_report_product_purchased');]]></search>
+      <add><![CDATA[$this->data['text_report_products_product_by_states'] = $this->language->get('text_report_products_product_by_states');]]></add>
+    </operation>
+  </file>
+  	<file name="admin/language/english/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_report_product_purchased']    = 'Purchased';]]></search>
+			<add><![CDATA[$_['text_report_products_product_by_states']  = 'Products By States';
+		]]></add>
+		</operation>
+	</file>
+	<file name="admin/language/russian/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_report_product_purchased']    = 'Куплено';]]></search>
+			<add><![CDATA[$_['text_report_products_product_by_states']  = 'Продукты по статусам';
+		]]></add>
+		</operation>
+	</file>
+
+	
+</modification>

@@ -53,6 +53,18 @@
 		}  ]]></add>
 		</operation>
 		<operation>
+			<search position="after"><![CDATA[$this->model_sale_order->getOrderHistories]]></search>
+			<add><![CDATA[
+			$tmp_link = $this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&short' . $url . '&order_id=', 'SSL');
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA['comment'    => nl2br($result['comment']),]]></search>
+			<add><![CDATA[
+			'comment'    => nl2br(str_replace('#(\d+)', '<a href="' . $tmp_link . '${1}' . '">#${1}</a>', $result['comment'])),
+			]]></add>
+		</operation>
+		<operation>
 			<search position="replace"><![CDATA[$this->template = 'sale/order_info.tpl';]]></search>
 			<add><![CDATA[
 			if ( $make_it_short == False) {
@@ -66,6 +78,8 @@
 				$comment = str_replace("{firstname}", ucfirst(trim($order_info['payment_firstname'])), $comment);
 				$comment = str_replace("{lastname}", ucfirst(trim($order_info['payment_lastname'])), $comment);
 				$comment = str_replace("{order_id}", $this->data['order_id'], $comment);
+				$comment = str_replace("{total}", $this->data['total'], $comment);
+				$comment = str_replace("{comment}", $this->data['comment'], $comment);
 
 				$this->data['com' . $i . '_title'] = $this->config->get('com' . $i . '_title');
 				$this->data['com' .$i . '_comment'] = $comment; 
@@ -102,13 +116,16 @@
 				$this->data['histories'] = array();
 				$results = $this->model_sale_order->getOrderHistories($this->request->get['order_id'], 0, 1000);
 
+				$tmp_link = $this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&short' . $url . '&order_id=', 'SSL');
+				
 				foreach ($results as $result) {
 					$this->data['histories'][] = array(
 						'order_history_id' => $result['order_history_id'],
 						'notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no'),
 						'notify_bool'=> $result['notify'],
 						'status'     => $result['status'],
-						'comment'    => nl2br($result['comment']),
+						'comment'    => nl2br(str_replace('#(\d+)', '===${1}', $result['comment'])),
+						'comment2'    => nl2br(str_replace('#(\d+)', '<a href="' . $tmp_link . '${1}' . '">#${1}</a>', $result['comment'])),
 						'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 					);
 				}

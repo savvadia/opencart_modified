@@ -198,12 +198,17 @@ class ModelModuleNotifyWhenArrives extends Model {
 	    $filter_date
 	    AND
 	   (nwa.option_id IS NULL OR nwa.option_id = '0')
+	   
+	   AND (nwa.notified=0)
+	   
 	   $product_stock_query";
  
  
 	    if ($to_notify){
 			 $sql .= " limit 50"; 
 	    }
+		
+		$this->log->write(__FILE__.":". __LINE__.": " . "FIXME sql=".$sql);
 
 	    $query = $this->db->query($sql);
   
