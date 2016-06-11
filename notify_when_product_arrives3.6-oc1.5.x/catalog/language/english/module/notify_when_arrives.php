@@ -1,15 +1,15 @@
 <?php
 
-$_['heading_title'] = 'Subscribe for stock updates';
+$_['heading_title'] = '';
 
 #text---------------------------------------------------------------------------
 
-$_['text_description']  = 'Enter your email to be informed when this product arrives:';
+$_['text_description']  = 'Enter your email to be informed when this product is available:';
 
-$_['text_description_2']  = 'Fill this form to be informed when this product arrives:';
+$_['text_description_2']  = 'We consider if we need to make more of these items and how many. Please, fill this form so that we know about the demand. We will notify you when the product is available:';
 
-$_['text_success'] =  'DONE:<br/>Now you are subscribed to stock updates!<br/>You will be informed when this product arrives. Thank You!';
-$_['text_already_subscribed'] =  'DONE:<br/>You are already subscribed to stock updates.<br/>You will be informed when this product arrives. Thank You!';
+$_['text_success'] =  'DONE:<br/>Now the request for the production is submitted. <br/>You will be informed when this product arrives. Thank You!';
+$_['text_already_subscribed'] =  'DONE:<br/>You are already subscribed for this product.<br/>You will be informed when this product arrives. Thank You!';
 
 $_['mail_admin_subject'] =  'New request for out of stock product - {product_name}';
 
@@ -42,7 +42,7 @@ $_['nwa_entry_captcha'] = 'Please enter the text below:';
 #buttons---------------------------------------------------------------------------
 
 $_['button_register']  = 'Send';
-$_['button_category'] = 'Notify me!';
+$_['button_category'] = 'Make more!';
 $_['button_close'] = 'Close';
 
 ?>

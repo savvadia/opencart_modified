@@ -475,7 +475,8 @@ class ControllerModuleNotifyWhenArrives extends Controller {
 	$this->load->model('module/notify_when_arrives');
 
         
-        $sent = 0;		$mails_sent_to = "";
+        $sent = 0;
+		$total_sent = 0;		$mails_sent_to = "";
 
 
 	if (!isset($this->request->get['main']) || $this->config->get('notify_mode') || isset($this->request->get['nwa_cron_key']) ) {
@@ -535,11 +536,12 @@ class ControllerModuleNotifyWhenArrives extends Controller {
 
 			    foreach ($mails as $user_info) {
  
-                                $user_message = str_replace(array('{user_name}', '{user_phone}', '{user_custom}'), array($user_info['user'],$user_info['phone'],$user_info['custom']), $message);
+                                $user_message = str_replace(array('{user_name}', '{user_name}', '{user_phone}', '{user_custom}'), array($user_info['user'],$user_info['phone'],$user_info['custom']), $message);
 
 				$this->sendEmail($stores[$store_id], $user_info['email'], $subject, $user_message);
-                                                                
-                                $sent ++;								$mails_sent_to .= $sent . ".   " . $user_info['email'] . "<br>"; 
+                //$this->log->write(__FILE__.":". __LINE__.": " . "FIXME sent mail to=".$user_info['email'].", subj=".$subject);         
+                $sent ++;				$mails_sent_to .= $sent . ".   [". $user_info['id'] ."] " . $user_info['email'] . "<br>"; 
+								
  
 				
 			    }
@@ -547,7 +549,8 @@ class ControllerModuleNotifyWhenArrives extends Controller {
 			    $admin_subject = str_replace(array('{store_name}', '{product_name}', '{product_link}','{product_image}','{sent}'), array($store_name, $name, $link, $image, $sent), $mail_admin_subject);
 			    $admin_message = str_replace(array('{store_name}', '{product_name}', '{product_link}','{product_image}','{sent}','{mails_sent_to}'), array($store_name, $name, $link, $image, $sent, $mails_sent_to), $mail_admin_message);
 
-			    $this->sendEmail($stores[$store_id], $stores[$store_id]['email'], $admin_subject, $admin_message);								$this->log->write(__FILE__.":". __LINE__.": " . "NWA: product=".$link_short.", noOfSentMsgs=".$sent.", emails=" . $mails_sent_to);								$sent = 0;				$mails_sent_to = "";
+			    $this->sendEmail($stores[$store_id], $stores[$store_id]['email'], $admin_subject, $admin_message);								$this->log->write(__FILE__.":". __LINE__.": " . "NWA: product=".$link_short.", noOfSentMsgs=".$sent.", emails=" . $mails_sent_to);								$total_sent += $sent;
+				$sent = 0;				$mails_sent_to = "";
 			}
 		    }
 		}
@@ -572,7 +575,7 @@ class ControllerModuleNotifyWhenArrives extends Controller {
              $waiting = (int) $this->model_module_notify_when_arrives->count();
 
  
-            $this->response->setOutput(str_replace(array('{count_sent}','{count_wait}'), array($sent,$waiting), $this->language->get('text_wait_count_cron')));
+            $this->response->setOutput(str_replace(array('{count_sent}','{count_wait}'), array($total_sent,$waiting), $this->language->get('text_wait_count_cron')));
 	
         }else {
  

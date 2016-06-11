@@ -1,0 +1,8 @@
+Installation Instructions
+--------------------------
+
+
+This module is fully tested on OpenCart v 1.5.1.3 Just copy the files folder respective folders and you will find the option for cost based shipping(standard) under Extension -> Shipping section in admin panel.
+Do not forget to write your review about this extension at starrow@hotmail.com
+
+Thank you for using the extension.

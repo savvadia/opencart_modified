@@ -205,7 +205,7 @@ class ModelModuleNotifyWhenArrives extends Model {
  
  
 	    if ($to_notify){
-			 $sql .= " limit 50"; 
+			 $sql .= " limit 10"; 
 	    }
 		
 		$this->log->write(__FILE__.":". __LINE__.": " . "FIXME sql=".$sql);
@@ -274,7 +274,8 @@ class ModelModuleNotifyWhenArrives extends Model {
 			$statistics[$store_id][$language_id][$group_id]['notified']++;
 		    } else {
 
-			$statistics[$store_id][$language_id][$group_id]['mails'][] = array( 'user' => $request['user'],
+			$statistics[$store_id][$language_id][$group_id]['mails'][] = array( 'id' => $request['id'],
+			                                                                                'user' => $request['user'],
                                                                                             'email' => $request['email'],
                                                                                             'phone' => $request['phone'],
                                                                                             'custom' => $request['custom']);
@@ -398,7 +399,7 @@ class ModelModuleNotifyWhenArrives extends Model {
 
 	 
 	return 	$this->db->query(
-			"UPDATE notify_when_arrives set notified = '1' 
+			"UPDATE notify_when_arrives set notified = '1', `date_notified` = curdate() 
 			 WHERE 
 			 id IN ('" . implode("','", $id_list). "')");
   
