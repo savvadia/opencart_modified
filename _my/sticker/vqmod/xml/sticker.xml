@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<modification>
+
+	<id>Sticker</id>
+	<version>1.2.0</version>
+	<vqmver>2.0</vqmver>
+	<author>Diana Savvatina</author>
+
+	<file name="admin/view/template/sale/order_info.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<div class="pull-right"><a href="<?php echo $invoice; ?>" target="_blank" data-toggle="tooltip" title="<?php echo $button_invoice_print; ?>" class="btn btn-info"><i class="fa fa-print"></i></a> <a href="<?php echo $shipping; ?>" target="_blank" data-toggle="tooltip" title="<?php echo $button_shipping_print; ?>" class="btn btn-info"><i class="fa fa-truck"></i></a> <a href="<?php echo $edit; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a> <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>]]></search>
+			<add><![CDATA[
+			<div class="pull-right"><a href="<?php echo $invoice; ?>" target="_blank" data-toggle="tooltip" title="<?php echo $button_invoice_print; ?>" class="btn btn-info"><i class="fa fa-print"></i></a> <a href="<?php echo $sticker; ?>" target="_blank" data-toggle="tooltip" title="<?php echo $button_sticker_print; ?>" class="btn btn-info"><i class="fa fa-list-alt"></i></a> <a href="<?php echo $shipping; ?>" target="_blank" data-toggle="tooltip" title="<?php echo $button_shipping_print; ?>" class="btn btn-info"><i class="fa fa-truck"></i></a> <a href="<?php echo $edit; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a> <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+			]]></add>
+		</operation>
+
+	</file>
+
+	<file name="admin/view/template/sale/order_list.tpl">
+
+		<operation>
+			<search position="before"><![CDATA[<button type="submit" id="button-invoice" form="form-order" formaction="<?php echo $invoice; ?>" data-toggle="tooltip" title="<?php echo $button_invoice_print; ?>" class="btn btn-info"><i class="fa fa-print"></i></button>]]></search>
+			<add><![CDATA[
+			<button type="submit" id="button-sticker" form="form-order" formaction="<?php echo $sticker; ?>" data-toggle="tooltip" title="<?php echo $button_sticker_print; ?>" class="btn btn-info"><i class="fa fa-list-alt"></i></button>
+			]]></add>
+		</operation>
+
+		<operation>
+			<search position="before"><![CDATA[$('#button-shipping, #button-invoice').prop('disabled', true);]]></search>
+			<add><![CDATA[
+			$('#button-sticker').prop('disabled', true);
+			]]></add>
+		</operation>	
+			
+		<operation>
+			<search position="before"><![CDATA[$('#button-invoice').prop('disabled', false);]]></search>
+			<add><![CDATA[
+			$('#button-sticker').prop('disabled', false);
+			]]></add>
+		</operation>
+			</file>
+
+	<file name="admin/controller/sale/order.php">
+
+		<operation>
+			<search position="after"><![CDATA[$data['invoice'] = $this->url->link('sale/order/invoice', 'token=' . $this->session->data['token'], true);]]></search>
+
+			<add><![CDATA[
+			$data['sticker'] = $this->url->link('sale/order/sticker', 'token=' . $this->session->data['token'], true);
+			// $data['sticker'] = $this->url->link('sale/order/sticker', 'token=' . $this->session->data['token'] . $url, 'SSL');
+			]]></add>
+
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$data['button_invoice_print'] = $this->language->get('button_invoice_print');]]></search>
+			<add><![CDATA[
+			$data['button_address_print'] = $this->language->get('button_address_print');]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$data['text_invoice'] = $this->language->get('text_invoice');]]></search>
+			<add><![CDATA[
+			$data['text_sticker'] = $this->language->get('text_sticker');]]></add>
+		</operation>
+
+		<operation>
+			<search position="after"><![CDATA[$data['button_invoice_print'] = $this->language->get('button_invoice_print');]]></search>
+			<add><![CDATA[
+			$data['button_sticker_print'] = $this->language->get('button_sticker_print');]]></add>
+		</operation>
+		
+		<operation>
+			<search position="after"><![CDATA[$data['invoice'] = $this->url->link('sale/order/invoice', 'token=' . $this->session->data['token'] . '&order_id=' . (int)$this->request->get['order_id'], true);]]></search>
+			<add><![CDATA[
+			$data['sticker'] = $this->url->link('sale/order/sticker', 'token=' . $this->session->data['token'] . '&order_id=' . (int)$this->request->get['order_id'], true);]]></add>
+		</operation>
+
+		<operation>
+			<search position="before"><![CDATA[public function invoice() {]]></search>
+
+			<add><![CDATA[ public function sticker() {
+		$this->load->language('sale/order');
+
+		$data['title'] = $this->language->get('heading_title');
+
+		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+			$data['base'] = HTTPS_SERVER;
+		} else {
+			$data['base'] = HTTP_SERVER;
+		}
+
+		$data['direction'] = $this->language->get('direction');
+		$data['language'] = $this->language->get('code');
+
+		$data['text_fax'] = $this->language->get('text_fax');
+		$data['text_telephone'] = $this->language->get('text_telephone');
+		$data['text_to'] = $this->language->get('text_to');
+		$data['text_ship_to'] = $this->language->get('text_ship_to');
+		$data['text_ship_from'] = $this->language->get('text_ship_from');
+
+		$this->load->model('sale/order');
+
+		if (isset($this->request->post['selected'])) {
+			$orders = $this->request->post['selected'];
+			asort($orders);
+		} elseif (isset($this->request->get['order_id'])) {
+			$orders[] = $this->request->get['order_id'];
+		}
+
+		foreach ($orders as $order_id) {
+			$order_info = $this->model_sale_order->getOrder($order_id);
+			$totals_info = $this->model_sale_order->getOrderTotals($order_id);
+			
+			$total_shipping = 0;
+			
+			if ($totals_info) {
+				foreach($totals_info as $total_entry) {
+					if($total_entry['code'] == "shipping") {
+						$total_shipping += $total_entry['value'];
+					}
+				}
+	
+			}
+			
+
+			if ($order_info) {
+
+				if ($order_info['shipping_address_format']) {
+					$format = $order_info['shipping_address_format'];
+				} else {
+					$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{country}';
+				}
+
+				$find = array(
+					'{firstname}',
+					'{lastname}',
+					'{company}',
+					'{address_1}',
+					'{address_2}',
+					'{city}',
+					'{postcode}',
+					'{zone}',
+					'{zone_code}',
+					'{country}'
+				);
+
+				$replace = array(
+					'firstname' => trim($order_info['shipping_firstname']),
+					'lastname'  => trim($order_info['shipping_lastname']),
+					'company'   => trim($order_info['shipping_company']),
+					'address_1' => trim($order_info['shipping_address_1']),
+					'address_2' => trim($order_info['shipping_address_2']),
+					'city'      => trim(ucwords($order_info['shipping_city'])),
+					'postcode'  => trim($order_info['shipping_postcode']),
+					'zone'      => trim($order_info['shipping_zone']),
+					'zone_code' => trim($order_info['shipping_zone_code']),
+					'country'   => trim($order_info['shipping_country'])
+				);
+
+				$shipping_address = ucwords(str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format)))));
+			
+				
+				// -----------------------------------------------------------------
+				// Modify to adjust for shipping prices in your store.
+				// Here 3 stickers are printed for EMS and EcoPost.
+				// For all others we print 1 sticker per $12 paid for shipping
+				// -----------------------------------------------------------------
+				$noOfStickers = (strpos($order_info['shipping_method'], "EMS") === false) && (strpos($order_info['shipping_method'], "Eco") === false) ? ceil($total_shipping/12) : 3;
+				
+				for($stickerIx=0; $stickerIx < $noOfStickers; $stickerIx++) {
+					$data['orders'][] = array(
+						'order_id'       	=> ($noOfStickers > 1) ? $order_id." [".$noOfStickers."]" : $order_id,
+						'store_name'       	=> $order_info['store_name'],
+						'store_url'        	=> rtrim($order_info['store_url'], '/'),
+						'fax'              	=> $this->config->get('config_fax'),
+						'email'            	=> $this->config->get('config_email'),
+						'telephone'         => $order_info['telephone'],
+						'shipping_address' 	=> $shipping_address,
+						'customer_email'   	=> $order_info['email'],
+					);				
+				}
+				
+
+			}
+		}
+
+		$this->response->setOutput($this->load->view('sale/sticker', $data));
+	} ]]></add>
+
+		</operation>
+	</file>
+
+	<file name="admin/language/en-gb/sale/order.php">
+		<operation>
+			<search position="after"><![CDATA[$_['text_invoice']               = 'Invoice';]]></search>
+			<add><![CDATA[
+			$_['text_sticker']  = 'Sticker';
+			$_['text_to']       = 'To:';]]></add>
+		</operation>
+
+
+	</file>
+	
+	<file name="admin/language/en-gb/en-gb.php">
+		<operation>
+			<search position="after"><![CDATA[$_['button_invoice_print']          = 'Print Invoice';]]></search>
+			<add><![CDATA[
+			$_['button_sticker_print']          = 'Print sticker';]]></add>
+		</operation>
+	</file>
+	
+</modification>
